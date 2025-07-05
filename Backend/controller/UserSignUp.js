@@ -1,18 +1,10 @@
-const userModel = require("../../models/userModel")
+const userModel = require("../models/UserModels")
 const bcrypt = require('bcryptjs');
 
 
-async function userSignUpController(req,res){
+async function userSignUpController(req, res){
     try{
         const { email, password, name} = req.body
-
-        const user = await userModel.findOne({email})
-
-        console.log("user",user)
-
-        if(user){
-            throw new Error("Already user exits.")
-        }
 
         if(!email){
            throw new Error("Please provide email")
