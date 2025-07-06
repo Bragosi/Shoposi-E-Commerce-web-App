@@ -1,7 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LoginIcon from "../assest/signin.gif";
 import ImageToBase64 from "../Helpers/ImageToBase64";
+import summaryApi from "../common";
+import { toast } from "react-toastify";
+
 
 const SignUp = () => {
   const [data, setData] = useState({
@@ -11,16 +14,43 @@ const SignUp = () => {
     confirmPassword: "",
     profilePic: "",
   });
+  const navigate = useNavigate()
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+ const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: add validation / send to backend
+
+    if (data.password !== data.confirmPassword) {
+      return console.log("Password and Confirm password don't match");
+    }
+
+    try {
+      const res = await fetch(summaryApi.signUp.url, {
+        method: summaryApi.signUp.method,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      const dataApi = await res.json();
+      if (dataApi.success) {
+        toast.success(dataApi.message)
+        navigate("/login")
+      }
+      if (dataApi.error) {
+         toast.error(dataApi.message)
+      }
+      if (!res.ok || dataApi.error) {
+        throw new Error(dataApi.message || "Signup failed");
+      }
+    } catch (err) {
+      console.error("signup error:", err.message);
+    }
   };
+
 
   const handleUploadPic = async (e) => {
     const file = e.target.files[0];
