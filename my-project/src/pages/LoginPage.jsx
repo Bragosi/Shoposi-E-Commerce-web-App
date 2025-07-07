@@ -19,6 +19,7 @@ const LoginPage = () => {
     e.preventDefault();
   const dataResponse = await fetch(summaryApi.signIn.url,{
     method : summaryApi.signIn.method,
+    credentials : 'include',
     headers:{
       "content-type" : "application/json"
     },
