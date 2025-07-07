@@ -1,21 +1,38 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import LoginIcon from "../assest/signin.gif";
-
+import summaryApi from "../common";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 const LoginPage = () => {
-  const [data, setData] = useState({
+  const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
+ const navigate = useNavigate()
   const handleOnChange = (e) => {
     const { name, value } = e.target;
-    setData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    // TODO: Add your login logic
+  const dataResponse = await fetch(summaryApi.signIn.url,{
+    method : summaryApi.signIn.method,
+    headers:{
+      "content-type" : "application/json"
+    },
+    body: JSON.stringify(formData)
+  })
+  const dataApi = await dataResponse.json()
+
+  if (dataApi.error) {
+    toast.error(dataApi.message)
+  }
+  if (dataApi.success) {
+    toast.success(dataApi.message)
+    navigate("/")
+  }
   };
 
   return (
@@ -35,7 +52,7 @@ const LoginPage = () => {
               type="email"
               name="email"
               required
-              value={data.email}
+              value={formData.email}
               onChange={handleOnChange}
               placeholder="you@example.com"
               className="w-full px-3 py-2 rounded-md bg-gray-100 outline-none ring-1 ring-transparent focus:ring-red-500 transition"
@@ -49,7 +66,7 @@ const LoginPage = () => {
               type="password"
               name="password"
               required
-              value={data.password}
+              value={formData.password}
               onChange={handleOnChange}
               placeholder="••••••••"
               className="w-full px-3 py-2 rounded-md bg-gray-100 outline-none ring-1 ring-transparent focus:ring-red-500 transition"

@@ -2,14 +2,19 @@ const express =  require('express')
 const cors =  require('cors')
 require('dotenv').config()
 const connectDB = require('./config/db')
+const cookieParser = require('cookie-parser')
 
 
 const authRoutes = require('./routes/auth')
 
 const app = express()
 // middleware
-app.use(cors())
+app.use(cors({
+  origin : process.env.FRONTEND_URL,
+  credentials : true
+}))
 app.use(express.json())
+app.use(cookieParser())
 
 // routes
 app.use('/api', authRoutes)
