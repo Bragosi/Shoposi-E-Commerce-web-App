@@ -42,21 +42,17 @@ async function userSignIn(req, res) {
     const token = jwt.sign(tokenData, process.env.TOKEN_SECRET_KEY, {
       expiresIn: 60 * 60 * 8, // 8 h
     });
+    const tokenOption = {
+      httpOnly: true,
+      secure: true,
+    };
 
-    res
-      .cookie("token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production", // avoid localhost issues
-        sameSite: "strict",
-        maxAge: 60 * 60 * 8 * 1000, // 8 h
-      })
-      .status(200)
-      .json({
-        message: "Login successful",
-        data: token,
-        success: true,
-        error: false,
-      });
+    res.cookie("token", token, tokenOption).status(200).json({
+      message: "Login successfully",
+      data: token,
+      success: true,
+      error: false,
+    });
   } catch (err) {
     console.error(err);
     return res.status(500).json({
