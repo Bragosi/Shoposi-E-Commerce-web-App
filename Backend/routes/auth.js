@@ -9,6 +9,6 @@ const authToken = require('../middleWare/authToken');
 
 router.post('/signUp', userSignUp)
 router.post('/login', UserSignIn )
-router.get("/userDetails", authToken, userDetails)
+router.get('/userDetails', authToken, userDetails);
 
 module.exports = router;      
