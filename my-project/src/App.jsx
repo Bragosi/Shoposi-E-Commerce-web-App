@@ -7,11 +7,34 @@ import ForgotPassword from "./pages/ForgotPassword";
 import SignUp from "./pages/SignUp";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect } from "react";
+import summaryApi from "./common";
+import Context from "./context";
 
 export default function App() {
+
+const fetchUserDetails = async()=>{
+  const dataResponse = await fetch(summaryApi.currentUser.url,{
+    method: summaryApi.currentUser.method,
+    credentials: "include"
+  })
+  const dataApi = await dataResponse.json()
+  
+  console.log('userData', dataApi)
+
+}
+
+  useEffect(()=>{
+    /** user details */
+    fetchUserDetails()
+  },[])
+
   return (
     <>
-      <ToastContainer />
+      <Context.Provider value={{
+          fetchUserDetails // userDetailsFetch
+      }}>
+         <ToastContainer />
       <Router>
         <div>
           <Header />
@@ -24,6 +47,7 @@ export default function App() {
           <Footer />
         </div>
       </Router>
+      </Context.Provider>
     </>
   );
 }

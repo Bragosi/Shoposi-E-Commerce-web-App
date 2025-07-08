@@ -4,12 +4,15 @@ import LoginIcon from "../assest/signin.gif";
 import summaryApi from "../common";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import Context from "../context";
 const LoginPage = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
  const navigate = useNavigate()
+ const { fetchUserDetails } = useContext(Context)
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -32,6 +35,7 @@ const LoginPage = () => {
   }
   if (dataApi.success) {
     toast.success(dataApi.message)
+    fetchUserDetails()
     navigate("/")
   }
   };
