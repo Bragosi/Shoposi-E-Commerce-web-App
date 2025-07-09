@@ -19,34 +19,25 @@ const dispatch = useDispatch()
 
 const fetchUserDetails = async () => {
   try {
-    console.log("📡 Fetching user details...");
-
     const response = await fetch(summaryApi.currentUser.url, {
       method: summaryApi.currentUser.method,
       credentials: "include",
     });
 
-    console.log("🌐 Response status:", response.status);
-    console.log("🌐 Response headers:", response.headers);
-
     const rawText = await response.text();
-    console.log("🌐 Raw response text:", rawText);
-
     let dataApi;
     try {
       dataApi = JSON.parse(rawText);
     } catch (err) {
-      console.error("❌ Failed to parse JSON:", err);
+      console.error("Failed to parse JSON:", err);
       return;
     }
-
-    console.log("🔁 Parsed JSON:", dataApi);
 
     if (dataApi.success) {
       dispatch(setUserDetails(dataApi.data));
     }
   } catch (error) {
-    console.error("❌ Network error while fetching user details:", error);
+    console.error("Network error while fetching user details:", error);
   }
 };
 

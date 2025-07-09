@@ -1,14 +1,33 @@
-import logo from '../../public/logo (2).png';
-import { GrSearch } from 'react-icons/gr';
-import { FaRegCircleUser } from 'react-icons/fa6';
-import { FaShoppingCart } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import logo from "../../public/logo (2).png";
+import { GrSearch } from "react-icons/gr";
+import { FaRegCircleUser } from "react-icons/fa6";
+import { FaShoppingCart } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import summaryApi from "../common/index.js";
+import { toast } from "react-toastify";
 
 const Header = () => {
+  const user = useSelector((state) => state?.user?.user);
+
+  console.log("user", user);
+  const handleLogOut = async () => {
+    const fetchData = await fetch(summaryApi.logOut.url, {
+      method: summaryApi.logOut.method,
+      credentials: "include",
+    });
+    const data = await fetchData.json();
+
+    if (data.success) {
+      toast.success(data.message);
+    }
+    if (data.error) {
+      toast.error(data.message);
+    }
+  };
   return (
     <header className="w-full shadow-md">
       <div className="max-w-screen-xl mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
-
         {/* Logo & Title */}
         <Link to="/" className="flex items-center gap-2">
           <img src={logo} alt="logo" className="w-10 h-10 object-contain" />
@@ -31,10 +50,17 @@ const Header = () => {
 
         {/* Icons & Login */}
         <div className="flex items-center gap-5 sm:gap-6 relative">
-
           {/* User Icon */}
           <div className="text-xl sm:text-2xl text-gray-700 hover:text-red-600 cursor-pointer transition-colors">
-            <FaRegCircleUser />
+            {user?.profilePic ? (
+              <img
+                src={user?.profilePic}
+                alt={user?.name}
+                className="w-10 h-10 rounded-full"
+              />
+            ) : (
+              <FaRegCircleUser />
+            )}
           </div>
 
           {/* Cart Icon with Badge */}
@@ -46,11 +72,21 @@ const Header = () => {
           </div>
 
           {/* Login Button */}
-          <Link to="/login">
-            <button className="px-4 py-1.5 rounded-full text-white text-sm bg-red-600 hover:bg-red-700 transition-all">
-              Login
-            </button>
-          </Link>
+          <div>
+            {user?._id ? (
+               <Link to="/login">
+                <button className="px-4 py-1.5 rounded-full text-white text-sm bg-red-600 hover:bg-red-700 transition-all">
+                  Log Out
+                </button>
+              </Link>
+            ) : (
+              <Link to="/login">
+                <button className="px-4 py-1.5 rounded-full text-white text-sm bg-red-600 hover:bg-red-700 transition-all">
+                  Login
+                </button>
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </header>

@@ -11,6 +11,10 @@ const summaryApi ={
     currentUser :{
         url:`${backendDomain}/api/userDetails`,
         method: "get"
+    },
+    logOut :{
+        url: `${backendDomain}/api/userLogOut`,
+        method : "get"
     }
 }
 
