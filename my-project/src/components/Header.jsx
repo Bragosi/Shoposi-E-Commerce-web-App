@@ -6,11 +6,17 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import summaryApi from "../common/index.js";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setUserDetails } from "../store/userSlice.js";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 const Header = () => {
+  const location = useLocation();
   const user = useSelector((state) => state?.user?.user);
-
-  console.log("user", user);
+  const dispatch = useDispatch()
+  const [menu, setmenu] = useState(false)
   const handleLogOut = async () => {
     const fetchData = await fetch(summaryApi.logOut.url, {
       method: summaryApi.logOut.method,
@@ -19,12 +25,18 @@ const Header = () => {
     const data = await fetchData.json();
 
     if (data.success) {
-      toast.success(data.message);
+      toast.success(data.message)
+      dispatch(setUserDetails(null))
     }
     if (data.error) {
       toast.error(data.message);
     }
   };
+  
+useEffect(() => {
+  setmenu(false);
+}, [location.pathname]);
+
   return (
     <header className="w-full shadow-md">
       <div className="max-w-screen-xl mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -51,7 +63,10 @@ const Header = () => {
         {/* Icons & Login */}
         <div className="flex items-center gap-5 sm:gap-6 relative">
           {/* User Icon */}
-          <div className="text-xl sm:text-2xl text-gray-700 hover:text-red-600 cursor-pointer transition-colors">
+         <div 
+         onClick={()=> setmenu(prev => !prev)}
+         className="relative flex justify-center">
+           <div className="text-xl sm:text-2xl text-gray-700 hover:text-red-600 cursor-pointer transition-colors">
             {user?.profilePic ? (
               <img
                 src={user?.profilePic}
@@ -61,7 +76,21 @@ const Header = () => {
             ) : (
               <FaRegCircleUser />
             )}
+          </div> 
+          {
+            menu && (
+              <div className="absolute hidden md:block bg-white bottom-0 top-11 p-2 h-fit shadow-lg rounded">
+           <nav>
+            <Link to={"adminPanel"} 
+              onClick={()=> setmenu(prev => !prev)}
+             className="w-full whitespace-nowrap hover:bg-slate-100 p-2" >
+            Admin
+            </Link>
+           </nav>
           </div>
+            )
+          }
+         </div>
 
           {/* Cart Icon with Badge */}
           <div className="relative cursor-pointer text-xl sm:text-2xl text-gray-700 hover:text-red-600 transition-colors">
@@ -74,11 +103,11 @@ const Header = () => {
           {/* Login Button */}
           <div>
             {user?._id ? (
-               <Link to="/login">
-                <button className="px-4 py-1.5 rounded-full text-white text-sm bg-red-600 hover:bg-red-700 transition-all">
-                  Log Out
+              <button 
+              onClick={handleLogOut}
+              className="px-4 py-1.5 rounded-full text-white text-sm bg-red-600 hover:bg-red-700 transition-all">
+                Log out
                 </button>
-              </Link>
             ) : (
               <Link to="/login">
                 <button className="px-4 py-1.5 rounded-full text-white text-sm bg-red-600 hover:bg-red-700 transition-all">

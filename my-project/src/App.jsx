@@ -12,59 +12,67 @@ import summaryApi from "./common";
 import Context from "./context";
 import { useDispatch } from "react-redux";
 import { setUserDetails } from "./store/userSlice";
+import AdminPanel from "./pages/AdminPanel";
+import AllUsersPage from "./pages/AllUsersPage";
+import AllProductsPage from "./pages/AllProductsPage";
 
 export default function App() {
-const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-
-const fetchUserDetails = async () => {
-  try {
-    const response = await fetch(summaryApi.currentUser.url, {
-      method: summaryApi.currentUser.method,
-      credentials: "include",
-    });
-
-    const rawText = await response.text();
-    let dataApi;
+  const fetchUserDetails = async () => {
     try {
-      dataApi = JSON.parse(rawText);
-    } catch (err) {
-      console.error("Failed to parse JSON:", err);
-      return;
+      const response = await fetch(summaryApi.currentUser.url, {
+        method: summaryApi.currentUser.method,
+        credentials: "include",
+      });
+
+      const rawText = await response.text();
+      let dataApi;
+      try {
+        dataApi = JSON.parse(rawText);
+      } catch (err) {
+        console.error("Failed to parse JSON:", err);
+        return;
+      }
+
+      if (dataApi.success) {
+        dispatch(setUserDetails(dataApi.data));
+      }
+    } catch (error) {
+      console.error("Network error while fetching user details:", error);
     }
+  };
 
-    if (dataApi.success) {
-      dispatch(setUserDetails(dataApi.data));
-    }
-  } catch (error) {
-    console.error("Network error while fetching user details:", error);
-  }
-};
-
-
-  useEffect(()=>{
+  useEffect(() => {
     /** user details */
-    fetchUserDetails()
-  },[])
+    fetchUserDetails();
+  }, []);
 
   return (
     <>
-      <Context.Provider value={{
-          fetchUserDetails
-      }}>
-         <ToastContainer />
-      <Router>
-        <div>
-          <Header />
-          <Routes>
-            <Route path="/" element={<Homepage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/forgotPassword" element={<ForgotPassword />} />
-            <Route path="/signUp" element={<SignUp />} />
-          </Routes>
-          <Footer />
-        </div>
-      </Router>
+      <Context.Provider
+        value={{
+          fetchUserDetails,
+        }}
+      >
+        <ToastContainer />
+        <Router>
+          <div>
+            <Header />
+            <Routes>
+              <Route path="/" element={<Homepage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/forgotPassword" element={<ForgotPassword />} />
+              <Route path="/signUp" element={<SignUp />} />
+              
+              <Route path="/adminPanel" element={<AdminPanel />}>
+                <Route path="allUsers" element={<AllUsersPage />} />
+                <Route path="products" element={<AllProductsPage />} />
+              </Route>
+            </Routes>
+            <Footer />
+          </div>
+        </Router>
       </Context.Provider>
     </>
   );

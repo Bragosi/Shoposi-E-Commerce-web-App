@@ -4,4 +4,18 @@
 
 body{
     background-color: #d5ded4;
+} 
+
+.rightShadow{
+    box-shadow: 0px 0px 10px rgb(0,0,0,0.1) ;
+}
+
+.userTable{
+    @apply bg-white
+}
+.userTable th{
+    @apply border text-base font-medium 
+}
+.userTable td{
+    @apply border text-base
 }
