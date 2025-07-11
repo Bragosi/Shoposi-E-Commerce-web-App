@@ -20,7 +20,12 @@ const summaryApi ={
     allUser :{
         url: `${backendDomain}/api/allUser`,
         method : "get"
-    }
+    },
+    updateUser : {
+        url : `${backendDomain}/api/updateUser`,
+        method : "post"
+    },
 }
 
 export default summaryApi
+

@@ -7,6 +7,13 @@ import ChangeUserRole from '../components/ChangeUserRole';
 
 const AllUsersPage = () => {
   const [allUser, setAllUser] = useState([]);
+  const [openUpdateRole, setopenUpdateRole] = useState(false)
+  const [updateUserDetails, setupdateUserDetails] = useState({
+    email : " ",
+    name : " ",
+    role : " ",
+    _id : " "
+  })
 
   const fetchAllUsers = async () => {
     try {
@@ -37,41 +44,55 @@ const AllUsersPage = () => {
   return (
     <div className="rounded-lg shadow-md p-6 overflow-x-auto">
       <h2 className="text-2xl font-semibold mb-4">All Users</h2>
-      <table className="min-w-full table-auto border-collapse">
-        <thead>
-          <tr className="bg-gray-100 text-gray-700 text-left text-sm">
-            <th className="py-3 px-4 border-b">#</th>
-            <th className="py-3 px-4 border-b">Name</th>
-            <th className="py-3 px-4 border-b">Email</th>
-            <th className="py-3 px-4 border-b">Role</th>
-            <th className="py-3 px-4 border-b">Created Date</th>
-            <th className="py-3 px-4 border-b text-center">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {allUser.map((user, index) => (
-            <tr
-              key={user._id}
-              className="hover:bg-gray-50 transition-colors text-sm text-gray-800"
-            >
-              <td className="py-2 px-4 border-b">{index + 1}</td>
-              <td className="py-2 px-4 border-b capitalize">{user.name}</td>
-              <td className="py-2 px-4 border-b">{user.email}</td>
-              <td className="py-2 px-4 border-b capitalize">{user.role}</td>
-              <td className="py-2 px-4 border-b">
-                {moment(user.createdAt).format('LL')}
-              </td>
-              <td className="py-2 px-4 border-b text-center">
-                <button className="px-3 py-1 bg-green-500 hover:bg-green-700 text-white text-xs rounded-md shadow">
-                  <MdModeEdit/>
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+  <table className="min-w-full border-collapse rounded-lg overflow-hidden shadow">
+  <thead className="bg-gray-900 text-gray-100 text-sm">
+    <tr>
+      <th className="py-3 px-4 border-b border-r border-gray-300 text-left">#</th>
+      <th className="py-3 px-4 border-b border-r border-gray-300 text-left">Name</th>
+      <th className="py-3 px-4 border-b border-r border-gray-300 text-left">Email</th>
+      <th className="py-3 px-4 border-b border-r border-gray-300 text-left">Role</th>
+      <th className="py-3 px-4 border-b border-r border-gray-300 text-left">Created Date</th>
+      <th className="py-3 px-4 border-b text-center">Action</th>
+    </tr>
+  </thead>
+  <tbody className="bg-white text-sm text-gray-800">
+    {allUser.map((user, index) => (
+      <tr key={user._id} className="hover:bg-gray-50 transition-colors">
+        <td className="py-3 px-4 border-b border-r border-gray-200">{index + 1}</td>
+        <td className="py-3 px-4 border-b border-r border-gray-200 capitalize">{user.name}</td>
+        <td className="py-3 px-4 border-b border-r border-gray-200">{user.email}</td>
+        <td className="py-3 px-4 border-b border-r border-gray-200 capitalize">{user.role}</td>
+        <td className="py-3 px-4 border-b border-r border-gray-200">{moment(user.createdAt).format('LL')}</td>
+        <td className="py-3 px-4 border-b text-center">
+          <button
+            onClick={() => {
+              setupdateUserDetails(user);
+              setopenUpdateRole(true);
+            }}
+            className="inline-flex items-center gap-1 px-3 py-1 bg-green-500 hover:bg-green-600 text-white rounded-md text-xs shadow"
+          >
+            <MdModeEdit className="text-base" />
+            Edit
+          </button>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
 
-      <ChangeUserRole/>
+
+     {
+      openUpdateRole && (
+         <ChangeUserRole
+          onClose={()=>setopenUpdateRole(false)}
+          name={updateUserDetails.name}
+          email={updateUserDetails.email}
+          role={updateUserDetails.role}
+          userId={updateUserDetails._id}
+          refetchData={fetchAllUsers}
+         />
+      )
+     }
     </div>
   );
 };
