@@ -68,7 +68,8 @@ const Header = () => {
             onClick={() => setmenu((prev) => !prev)}
             className="relative flex justify-center"
           >
-            <div className="text-xl sm:text-2xl text-gray-700 hover:text-red-600 cursor-pointer transition-colors">
+            {user?._id && (
+               <div className="text-xl sm:text-2xl text-gray-700 hover:text-red-600 cursor-pointer transition-colors">
               {user?.profilePic ? (
                 <img
                   src={user?.profilePic}
@@ -79,19 +80,21 @@ const Header = () => {
                 <FaRegCircleUser />
               )}
             </div>
+            )}
+           
             
             {menu && (
               <div className="absolute hidden md:block bottom-0 top-11 p-2 h-fit shadow-lg rounded">
                 <nav>
                   {user?.role === ROLE.ADMIN && (
                     <Link
-                      to={"adminPanel"}
+                      to={"/adminPanel/products"}
                       onClick={() => setmenu((prev) => !prev)}
                       className="w-full whitespace-nowrap hover:bg-slate-100 p-2"
                     >
                       Admin
                     </Link>
-                  )}
+                  )}    
                 </nav>
               </div>
             )}
