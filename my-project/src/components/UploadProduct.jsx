@@ -2,6 +2,8 @@ import { useState } from "react";
 import { CgClose } from "react-icons/cg";
 import productCategory from "../Helpers/ProductCategory";
 import { FaCloudUploadAlt } from "react-icons/fa";
+import uploadImage from "../Helpers/UploadImage";
+import { ClipLoader } from "react-spinners"; // 👈 1. Import spinner
 
 const UploadProduct = ({ onClose }) => {
   const [data, setData] = useState({
@@ -13,7 +15,9 @@ const UploadProduct = ({ onClose }) => {
     price: "",
     selling: "",
   });
-  const [uploadProductImageInput, setuploadProductImageInput] = useState("")
+  const [uploadProductImageInput, setuploadProductImageInput] = useState("");
+  const [loading, setLoading] = useState(false); // 👈 2. Add loading state
+
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setData((prev) => ({
@@ -22,11 +26,25 @@ const UploadProduct = ({ onClose }) => {
     }));
   };
 
-  const handleUploadProduct =(e)=>{
-    const file = e.target.files[0]
-    setuploadProductImageInput(file.name)
-    console.log("file", file)
-  }
+  const handleUploadProduct = async (e) => {
+    const file = e.target.files[0];
+    setuploadProductImageInput(file.name);
+    setLoading(true); // 👈 Start loader
+
+    try {
+      const uploadImageCloudinary = await uploadImage(file);
+      console.log("upload image", uploadImageCloudinary.url);
+
+      setData((prev) => ({
+        ...prev,
+        productImage: [...prev.productImage, uploadImageCloudinary.url],
+      }));
+    } catch (err) {
+      console.error("Image upload failed:", err);
+    } finally {
+      setLoading(false); // 👈 End loader
+    }
+  };
 
   return (
     <div className="fixed inset-0 bg-slate-200 bg-opacity-40 flex justify-center items-center z-50">
@@ -103,22 +121,50 @@ const UploadProduct = ({ onClose }) => {
               Product Image
             </label>
             <label htmlFor="uploadImageInput">
-              <div className="mt-1 cursor-pointer flex-col w-full h-48 gap-2 bg-slate-100 border rounded flex items-center justify-center text-gray-400">
+              <div className={`mt-1 cursor-pointer flex-col w-full h-48 gap-2 bg-slate-100 border rounded flex items-center justify-center text-gray-400 ${loading && "opacity-70 pointer-events-none"}`}>
                 <FaCloudUploadAlt className="text-4xl" />
                 <p>Upload Product Image</p>
-                <input type="file" id="uploadImageInput" className="hidden" onChange={handleUploadProduct}/>
+                <input
+                  type="file"
+                  id="uploadImageInput"
+                  className="hidden"
+                  onChange={handleUploadProduct}
+                  accept="image/*"
+                  disabled={loading}
+                />
+                {loading && <ClipLoader size={28} color="#EF4444" />}
               </div>
             </label>
-            <div>
-              <img
-                src=""
-                alt=""
-                width={100}
-                height={100}
-                className="bg-slate-100 border "
-              />
-            </div>
+
+          <div>
+  {data?.productImage.length > 0 ? (
+    <div className="flex gap-4 mt-2 overflow-x-auto">
+      {data.productImage.map((el, index) => (
+        <img
+          key={index}
+          src={el}
+          alt={`Product ${index + 1}`}
+          width={100}
+          height={100}
+          className="bg-slate-100 border rounded"
+        />
+      ))}
+    </div>
+  ) : (
+    <p className="text-red-600 text-xs">
+      Please Upload Product Image
+    </p>
+  )}
+</div>
+
           </div>
+
+          <button
+            type="submit"
+            className="px-3 w-full bg-red-600 py-2 text-white mb-10 hover:bg-red-700"
+          >
+            Upload Product
+          </button>
         </form>
       </div>
     </div>
