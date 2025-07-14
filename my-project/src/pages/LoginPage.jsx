@@ -7,8 +7,12 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import Context from "../context";
 import { ClipLoader } from "react-spinners";
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa";
 const LoginPage = () => {
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -22,7 +26,7 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true)
+    setLoading(true);
 
     try {
       const dataResponse = await fetch(summaryApi.signIn.url, {
@@ -43,7 +47,7 @@ const LoginPage = () => {
         fetchUserDetails();
         navigate("/");
       }
-    } catch(error) {
+    } catch (error) {
       toast.error("Something went wrong. Please try again.");
     } finally {
       setLoading(false); // Stop loading
@@ -79,15 +83,24 @@ const LoginPage = () => {
             <label className="text-sm font-medium text-gray-700">
               Password
             </label>
-            <input
-              type="password"
-              name="password"
-              required
-              value={formData.password}
-              onChange={handleOnChange}
-              placeholder="••••••••"
-              className="w-full px-3 py-2 rounded-md bg-gray-100 outline-none ring-1 ring-transparent focus:ring-red-500 transition"
-            />
+            <div className="flex items-center bg-gray-100 rounded-md overflow-hidden ring-1 ring-transparent focus-within:ring-red-500 transition">
+              <input
+                type={showPassword ? "text" : "password"}
+                name="password"
+                required
+                value={formData.password}
+                onChange={handleOnChange}
+                placeholder="••••••••"
+                className="w-full px-3 py-2 rounded-md bg-gray-100 outline-none "
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="px-3 text-gray-600 hover:text-black"
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
             <Link
               to="/forgotPassword"
               className="text-sm mt-1 text-right text-gray-600 hover:text-red-600 hover:underline"

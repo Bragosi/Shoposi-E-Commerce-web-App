@@ -5,9 +5,12 @@ import ImageToBase64 from "../Helpers/ImageToBase64";
 import summaryApi from "../common";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa";
 
 const SignUp = () => {
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -128,15 +131,24 @@ const SignUp = () => {
             <label className="text-sm font-medium text-gray-700">
               Password
             </label>
-            <input
-              name="password"
-              value={data.password}
-              onChange={handleOnChange}
-              required
-              type="password"
-              placeholder="••••••••"
-              className="w-full px-3 py-2 rounded-md bg-gray-100 outline-none ring-1 ring-transparent focus:ring-red-500 transition"
-            />
+            <div className="flex items-center bg-gray-100 rounded-md overflow-hidden ring-1 ring-transparent focus-within:ring-red-500 transition">
+              <input
+                name="password"
+                value={data.password}
+                onChange={handleOnChange}
+                required
+                type={showPassword ? "text" : "password"}
+                placeholder="••••••••"
+                className="w-full px-3 py-2 bg-gray-100 outline-none"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="px-3 text-gray-600 hover:text-black"
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
           </div>
 
           {/* Confirm Password */}
@@ -144,15 +156,24 @@ const SignUp = () => {
             <label className="text-sm font-medium text-gray-700">
               Confirm Password
             </label>
-            <input
-              name="confirmPassword"
-              value={data.confirmPassword}
-              required
-              onChange={handleOnChange}
-              type="password"
-              placeholder="Re‑enter password"
-              className="w-full px-3 py-2 rounded-md bg-gray-100 outline-none ring-1 ring-transparent focus:ring-red-500 transition"
-            />
+            <div className="flex items-center bg-gray-100 rounded-md overflow-hidden ring-1 ring-transparent focus-within:ring-red-500 transition">
+              <input
+                name="confirmPassword"
+                value={data.confirmPassword}
+                onChange={handleOnChange}
+                required
+                type={showPassword ? "text" : "password"}
+                placeholder="Re-enter password"
+                className="w-full px-3 py-2 bg-gray-100 outline-none"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="px-3 text-gray-600 hover:text-black"
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </div>
           </div>
 
           {/* Submit */}
