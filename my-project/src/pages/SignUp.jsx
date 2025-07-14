@@ -4,9 +4,10 @@ import LoginIcon from "../assest/signin.gif";
 import ImageToBase64 from "../Helpers/ImageToBase64";
 import summaryApi from "../common";
 import { toast } from "react-toastify";
-
+import { ClipLoader } from "react-spinners";
 
 const SignUp = () => {
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -14,15 +15,16 @@ const SignUp = () => {
     confirmPassword: "",
     profilePic: "",
   });
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setData((prev) => ({ ...prev, [name]: value }));
   };
 
- const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     if (data.password !== data.confirmPassword) {
       return console.log("Password and Confirm password don't match");
@@ -37,20 +39,21 @@ const SignUp = () => {
 
       const dataApi = await res.json();
       if (dataApi.success) {
-        toast.success(dataApi.message)
-        navigate("/login")
+        toast.success(dataApi.message);
+        navigate("/login");
       }
       if (dataApi.error) {
-         toast.error(dataApi.message)
+        toast.error(dataApi.message);
       }
       if (!res.ok || dataApi.error) {
         throw new Error(dataApi.message || "Signup failed");
       }
     } catch (err) {
       console.error("signup error:", err.message);
+    } finally {
+      setLoading(false);
     }
   };
-
 
   const handleUploadPic = async (e) => {
     const file = e.target.files[0];
@@ -155,9 +158,21 @@ const SignUp = () => {
           {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-red-600 text-white py-2 rounded-full font-semibold hover:bg-red-700 hover:scale-105 transition-transform"
+            disabled={loading}
+            className={`w-full bg-red-600 text-white py-2 rounded-full font-semibold transition-transform flex justify-center items-center gap-2 ${
+              loading
+                ? "opacity-70 cursor-not-allowed"
+                : "hover:bg-red-700 hover:scale-105"
+            }`}
           >
-            Sign Up
+            {loading ? (
+              <>
+                <ClipLoader size={20} color="#fff" />
+                <span>Signing up...</span>
+              </>
+            ) : (
+              "Sign Up"
+            )}
           </button>
         </form>
 
