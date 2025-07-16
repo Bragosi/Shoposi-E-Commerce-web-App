@@ -250,7 +250,7 @@ const UploadProduct = ({ onClose, fetchData }) => {
 
             {/* Image Previews */}
 {data.productImage.length > 0 && (
-  <div className="flex gap-3 mt-3 overflow-x-auto whitespace-nowrap scroll-smooth scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
+  <div className="flex gap-3 mt-3 overflow-x-scroll whitespace-nowrap scroll-smooth scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
     {data.productImage.map((img, index) => (
       <div key={index} className="relative group inline-block">
         <img
