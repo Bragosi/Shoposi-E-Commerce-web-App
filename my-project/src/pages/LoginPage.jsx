@@ -48,14 +48,15 @@ const LoginPage = () => {
         navigate("/");
       }
     } catch (error) {
+      console.log('error',error)
       toast.error("Something went wrong. Please try again.");
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
   return (
-    <section className="min-h-screen flex items-center justify-center bg-gray-50========= px-4">
+    <section className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-sm bg-white rounded-xl shadow-lg p-6">
         {/* Logo */}
         <div className="w-20 h-20 mx-auto mb-6">

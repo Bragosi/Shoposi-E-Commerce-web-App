@@ -9,106 +9,105 @@ import { MdDelete } from "react-icons/md";
 import summaryApi from "../common";
 import { toast } from "react-toastify";
 
-const UploadProduct = ({ onClose, fetchData }) => {
-  const [data, setData] = useState({
-    productName: "",
-    brandName: "",
-    category: "",
-    productImage: [],
-    description: "",
-    price: "",
-    selling: "",
-  });
-  const [loading, setLoading] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [fullScreenImg, setfullScreenImg] = useState("");
-  const [openFullScreen, setopenFullScreen] = useState(false);
-
-  const handleOnChange = (e) => {
-    const { name, value } = e.target;
-    setData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleUploadProduct = async (e) => {
-    const file = e.target.files[0];
-
-    if (!file) {
-      toast.error("No file selected");
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const uploadImageCloudinary = await uploadImage(file);
-      console.log("upload image", uploadImageCloudinary.url);
-
-      setData((prev) => ({
-        ...prev,
-        productImage: [...prev.productImage, uploadImageCloudinary.url],
-      }));
-    } catch (err) {
-      console.error("Image upload failed:", err);
-      toast.error("Image upload failed");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleDeleteProductImage = (indexToDelete) => {
-    setData((prev) => ({
-      ...prev,
-      productImage: prev.productImage.filter((_, i) => i !== indexToDelete),
-    }));
-  };
-  { /** upload product */}
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (data.productImage.length === 0) {
-      toast.error("Please upload at least one product image");
-      return;
-    }
-
-    setSubmitting(true);
-
-    try {
-      const response = await fetch(summaryApi.uploadProduct.url, {
-        method: summaryApi.uploadProduct.method,
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }); 
-
-      const dataResponse = await response.json();
-
-      if (dataResponse.success) {
-        toast.success(dataResponse.message);
-        fetchData()
-        onClose();
-      } else if (dataResponse.error) {
-        toast.error(dataResponse.message);
-      }
-    } catch (err) {
-      toast.error("Something went wrong");
-      console.error(err);
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
+const AdminEditProduct = ({onClose, productData, fetchData}) => {
+     const [data, setData] = useState({
+      ...productData,
+        productName: productData?.productName,
+        brandName: productData?.brandName,
+        category: productData?.category,
+        productImage: productData?.productImage || [],
+        description: productData?.description,
+        price: productData?.price,
+        selling: productData?.selling,
+      });
+      const [loading, setLoading] = useState(false);
+      const [submitting, setSubmitting] = useState(false);
+      const [fullScreenImg, setfullScreenImg] = useState("");
+      const [openFullScreen, setopenFullScreen] = useState(false);
+    
+      const handleOnChange = (e) => {
+        const { name, value } = e.target;
+        setData((prev) => ({
+          ...prev,
+          [name]: value,
+        }));
+      };
+    
+      const handleUploadProduct = async (e) => {
+        const file = e.target.files[0];
+    
+        if (!file) {
+          toast.error("No file selected");
+          return;
+        }
+    
+        setLoading(true);
+        try {
+          const uploadImageCloudinary = await uploadImage(file);
+          console.log("upload image", uploadImageCloudinary.url);
+    
+          setData((prev) => ({
+            ...prev,
+            productImage: [...prev.productImage, uploadImageCloudinary.url],
+          }));
+        } catch (err) {
+          console.error("Image upload failed:", err);
+          toast.error("Image upload failed");
+        } finally {
+          setLoading(false);
+        }
+      };
+    
+      const handleDeleteProductImage = (indexToDelete) => {
+        setData((prev) => ({
+          ...prev,
+          productImage: prev.productImage.filter((_, i) => i !== indexToDelete),
+        }));
+      };
+      { /** upload product */}
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+    
+        if (data.productImage.length === 0) {
+          toast.error("Please upload at least one product image");
+          return;
+        }
+    
+        setSubmitting(true);
+    
+        try {
+          const response = await fetch(summaryApi.updateProduct.url, {
+            method: summaryApi.updateProduct.method,
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+          }); 
+    
+          const dataResponse = await response.json();
+    
+          if (dataResponse.success) {
+            toast.success(dataResponse.message);
+            fetchData()
+            onClose();
+          } else if (dataResponse.error) {
+            toast.error(dataResponse.message);
+          }
+        } catch (error) {
+          toast.error("Something went wrong");
+          console.log('error', error)
+        } finally {
+          setSubmitting(false);
+        }
+      };
+    
   return (
-    <div className="fixed inset-0 bg-slate-200 bg-opacity-40 flex justify-center items-center z-50">
+ <div className="fixed inset-0 bg-slate-200 bg-opacity-40 flex justify-center items-center z-50">
       <div className="bg-white rounded-xl w-full max-w-2xl max-h-[90%] shadow-xl overflow-hidden flex flex-col">
         {/* Header */}
         <div className="flex justify-between items-center p-4 border-b bg-slate-50">
-          <h2 className="text-xl font-semibold text-gray-800">
-            Upload Product
-          </h2>
+<h2 className="text-xl font-semibold text-gray-800">Edit Product</h2>
           <button
             onClick={onClose}
             className="text-2xl text-gray-600 hover:text-red-500"
@@ -249,30 +248,29 @@ const UploadProduct = ({ onClose, fetchData }) => {
             </label>
 
             {/* Image Previews */}
-{data.productImage.length > 0 && (
-  <div className="flex gap-3 mt-3 overflow-x-auto whitespace-nowrap scroll-smooth scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
-    {data.productImage.map((img, index) => (
-      <div key={index} className="relative group inline-block">
-        <img
-          src={img}
-          onClick={() => {
-            setopenFullScreen(true);
-            setfullScreenImg(img);
-          }}
-          className="w-24 h-24 object-cover border rounded shadow-sm cursor-pointer"
-        />
-        <button
-          type="button"
-          onClick={() => handleDeleteProductImage(index)}
-          className="absolute top-0 right-0 bg-red-600 text-white rounded-full p-1 text-sm hidden group-hover:block"
-        >
-          <MdDelete />
-        </button>
-      </div>
-    ))}
-  </div>
-)}
-
+            {data.productImage.length > 0 && (
+              <div className="flex gap-3 mt-3 overflow-x-auto">
+                {data.productImage.map((img, index) => (
+                  <div key={index} className="relative group">
+                    <img
+                      src={img}
+                      onClick={() => {
+                        setopenFullScreen(true);
+                        setfullScreenImg(img);
+                      }}
+                      className="w-24 h-24 object-cover border rounded shadow-sm cursor-pointer"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteProductImage(index)}
+                      className="absolute top-0 right-0 bg-red-600 text-white rounded-full p-1 text-sm hidden group-hover:block"
+                    >
+                      <MdDelete />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
             {data.productImage.length === 0 && (
               <p className="text-xs text-red-600 mt-1">
                 Please upload at least one image.
@@ -293,10 +291,10 @@ const UploadProduct = ({ onClose, fetchData }) => {
             {submitting ? (
               <>
                 <ClipLoader size={20} color="#fff" />
-                Uploading...
+                Saving...
               </>
             ) : (
-              "Upload Product"
+              "Save Changes"
             )}
           </button>
         </form>
@@ -310,7 +308,7 @@ const UploadProduct = ({ onClose, fetchData }) => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default UploadProduct;
+export default AdminEditProduct

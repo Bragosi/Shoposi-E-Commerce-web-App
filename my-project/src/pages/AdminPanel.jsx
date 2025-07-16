@@ -36,16 +36,16 @@ const AdminPanel = () => {
 
         {/* Navigation */}
         <nav className="grid p-4">
-          <Link to="allUsers" className="px-2 py-1 hover:bg-slate-100">
+          <Link to="allUsers" className="px-2 py-1 hover:bg-gray-500">
             All users
           </Link>
-          <Link to="products" className="px-2 py-1 hover:bg-slate-100">
+          <Link to="products" className="px-2 py-1 hover:bg-gray-500">
             Products
           </Link>
         </nav>
       </aside>
 
-      <main className="flex-1 p-4 bg-white w-full h-full">
+      <main className="flex-1 p-4 w-full h-full">
         <Outlet/>
       </main>
     </div>

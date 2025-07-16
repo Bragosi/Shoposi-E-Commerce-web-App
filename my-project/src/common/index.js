@@ -1,4 +1,3 @@
-
 const backendDomain = "http://localhost:8080"
 const summaryApi ={
     signUp:{
@@ -28,6 +27,14 @@ const summaryApi ={
     uploadProduct : {
         url : `${backendDomain}/api/uploadProduct`,
         method : "post"
+    },
+    allProduct : {
+        url : `${backendDomain}/api/getProduct`,
+        method : "get" 
+    },
+    updateProduct :{
+        url : `${backendDomain}/api/updateProduct`,
+        method : "post" 
     }
 }
 
