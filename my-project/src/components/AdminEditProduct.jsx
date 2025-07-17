@@ -249,7 +249,7 @@ const AdminEditProduct = ({onClose, productData, fetchData}) => {
 
             {/* Image Previews */}
             {data.productImage.length > 0 && (
-              <div className="flex gap-3 mt-3 overflow-x-auto">
+              <div className="flex gap-3 mt-3 ">
                 {data.productImage.map((img, index) => (
                   <div key={index} className="relative group">
                     <img

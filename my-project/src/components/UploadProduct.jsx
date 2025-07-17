@@ -63,7 +63,9 @@ const UploadProduct = ({ onClose, fetchData }) => {
       productImage: prev.productImage.filter((_, i) => i !== indexToDelete),
     }));
   };
-  { /** upload product */}
+  {
+    /** upload product */
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -82,13 +84,13 @@ const UploadProduct = ({ onClose, fetchData }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
-      }); 
+      });
 
       const dataResponse = await response.json();
 
       if (dataResponse.success) {
         toast.success(dataResponse.message);
-        fetchData()
+        fetchData();
         onClose();
       } else if (dataResponse.error) {
         toast.error(dataResponse.message);
@@ -249,29 +251,29 @@ const UploadProduct = ({ onClose, fetchData }) => {
             </label>
 
             {/* Image Previews */}
-{data.productImage.length > 0 && (
-  <div className="flex gap-3 mt-3 overflow-x-scroll whitespace-nowrap scroll-smooth scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
-    {data.productImage.map((img, index) => (
-      <div key={index} className="relative group inline-block">
-        <img
-          src={img}
-          onClick={() => {
-            setopenFullScreen(true);
-            setfullScreenImg(img);
-          }}
-          className="w-24 h-24 object-cover border rounded shadow-sm cursor-pointer"
-        />
-        <button
-          type="button"
-          onClick={() => handleDeleteProductImage(index)}
-          className="absolute top-0 right-0 bg-red-600 text-white rounded-full p-1 text-sm hidden group-hover:block"
-        >
-          <MdDelete />
-        </button>
-      </div>
-    ))}
-  </div>
-)}
+            {data.productImage.length > 0 && (
+              <div className="flex gap-3 mt-3 overflow-scroll scrollbar-none whitespace-nowrap scroll-smooth scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
+                {data.productImage.map((img, index) => (
+                  <div key={index} className="relative group inline-block">
+                    <img
+                      src={img}
+                      onClick={() => {
+                        setopenFullScreen(true);
+                        setfullScreenImg(img);
+                      }}
+                      className="w-24 h-24 object-cover border rounded shadow-sm cursor-pointer"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteProductImage(index)}
+                      className="absolute top-0 right-0 bg-red-600 text-white rounded-full p-1 text-sm hidden group-hover:block"
+                    >
+                      <MdDelete />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
 
             {data.productImage.length === 0 && (
               <p className="text-xs text-red-600 mt-1">

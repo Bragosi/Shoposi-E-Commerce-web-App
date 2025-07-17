@@ -15,6 +15,7 @@ import { setUserDetails } from "./store/userSlice";
 import AdminPanel from "./pages/AdminPanel";
 import AllUsersPage from "./pages/AllUsersPage";
 import AllProductsPage from "./pages/AllProductsPage";
+import ProductCategoryPage from "./pages/ProductCategoryPage";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -69,6 +70,8 @@ export default function App() {
                 <Route path="allUsers" element={<AllUsersPage />} />
                 <Route path="products" element={<AllProductsPage />} />
               </Route>
+
+              <Route path="/category/:categoryName" element={<ProductCategoryPage/>} />
             </Routes>
             <Footer />
           </div>

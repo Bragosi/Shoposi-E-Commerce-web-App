@@ -1,6 +1,12 @@
+import CategoryList from '../components/CategoryList'
+import ProductBanner from '../components/ProductBanner'
+
 const Homepage = () => {
   return (
-    <div>Homepage</div>
+    <div>
+      <CategoryList/>
+      <ProductBanner/>
+    </div>
   )
 }
 
