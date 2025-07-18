@@ -1,4 +1,5 @@
 import CategoryList from '../components/CategoryList'
+import HorizontalCardProduct from '../components/HorizontalCardProduct'
 import ProductBanner from '../components/ProductBanner'
 
 const Homepage = () => {
@@ -6,6 +7,8 @@ const Homepage = () => {
     <div>
       <CategoryList/>
       <ProductBanner/>
+<HorizontalCardProduct category={"airpods"} heading={"Top Airpods"} />
+
     </div>
   )
 }
