@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import fetchCategoryProduct from "../Helpers/FetchCategoryProduct";
 import displayCurrency from "../Helpers/DisplayCurrency";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import addToCart from "../Helpers/AddtoCart";
 
 const VerticalCardProduct = ({ category, heading }) => {
   const [data, setData] = useState([]);
@@ -59,9 +61,10 @@ const VerticalCardProduct = ({ category, heading }) => {
             className="flex gap-4 overflow-x-auto scrollbar-none scroll-smooth"
           >
             {data.map((product) => (
-              <div
+              <Link
+                to={"productDetails/"+product?._id}
                 key={product._id}
-                className="flex flex-col min-w-[280px] md:min-w-[320px] max-w-[320px] bg-white rounded-lg shadow-md"
+                className="flex flex-col min-w-[280px] md:min-w-[320px] max-w-[320px] cursor-pointer bg-white rounded-lg shadow-md"
               >
                 <div className="bg-slate-100 h-40 w-full p-3 flex items-center justify-center rounded-t-lg">
                   <img
@@ -85,11 +88,11 @@ const VerticalCardProduct = ({ category, heading }) => {
                       {displayCurrency(product.price)}
                     </p>
                   </div>
-                  <button className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full text-sm mt-2 w-fit">
+                  <button onClick={(e)=>addToCart(e, product?._id)} className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full text-sm mt-2 w-fit">
                     Add to Cart
                   </button>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 

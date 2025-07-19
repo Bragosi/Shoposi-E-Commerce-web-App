@@ -16,6 +16,8 @@ import AdminPanel from "./pages/AdminPanel";
 import AllUsersPage from "./pages/AllUsersPage";
 import AllProductsPage from "./pages/AllProductsPage";
 import ProductCategoryPage from "./pages/ProductCategoryPage";
+import AdminProductCard from "./components/AdminProductCard";
+import ProductDetailPage from "./pages/ProductDetailPage";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -72,6 +74,7 @@ export default function App() {
               </Route>
 
               <Route path="/category/:categoryName" element={<ProductCategoryPage/>} />
+              <Route path="/productDetails/:productId" element={<ProductDetailPage />} />
             </Routes>
             <Footer />
           </div>

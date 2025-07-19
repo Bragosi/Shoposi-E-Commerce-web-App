@@ -3,6 +3,8 @@ import fetchCategoryProduct from "../Helpers/FetchCategoryProduct";
 import displayCurrency from "../Helpers/DisplayCurrency";
 import { ClipLoader } from "react-spinners";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import addToCart from "../Helpers/AddtoCart";
 
 const HorizontalCardProduct = ({ category, heading }) => {
   const [data, setData] = useState([]);
@@ -10,7 +12,7 @@ const HorizontalCardProduct = ({ category, heading }) => {
   const containerRef = useRef();
   const loadingList = new Array(13).fill(null);
 
-  const fetchData = async () => {
+  const fetchData = async() => {
     setLoading(true);
     const categoryProducts = await fetchCategoryProduct(category);
     setLoading(false);
@@ -60,9 +62,10 @@ const HorizontalCardProduct = ({ category, heading }) => {
             className="flex w-full h-full gap-4 overflow-x-auto scrollbar-none scroll-smooth"
           >
             {data.map((product) => (
-              <div
+              <Link
+                to={"productDetails/" + product?._id}
                 key={product._id}
-                className="flex min-w-[300px] max-w-[320px] h-40 bg-white rounded-lg shadow-md"
+                className="flex cursor-pointer min-w-[300px] max-w-[320px] h-40 bg-white rounded-lg shadow-md"
               >
                 <div className="bg-slate-100 h-full p-3 flex items-center justify-center w-[145px] rounded-l-lg">
                   <img
@@ -87,11 +90,13 @@ const HorizontalCardProduct = ({ category, heading }) => {
                       {displayCurrency(product.price)}
                     </p>
                   </div>
-                  <button className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full text-sm mt-2 w-fit">
+                  <button
+                   onClick={(e)=>addToCart(e, product?._id)} 
+                   className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full text-sm mt-2 w-fit">
                     Add to Cart
                   </button>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
 
