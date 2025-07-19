@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import fetchCategoryProduct from "../Helpers/FetchCategoryProduct";
 import displayCurrency from "../Helpers/DisplayCurrency";
-import { ClipLoader } from "react-spinners";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
 
-const HorizontalCardProduct = ({ category, heading }) => {
+const VerticalCardProduct = ({ category, heading }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const containerRef = useRef();
@@ -38,17 +37,17 @@ const HorizontalCardProduct = ({ category, heading }) => {
           {loadingList.map((_, index) => (
             <div
               key={index}
-              className="min-w-[300px] max-w-[320px] h-40 bg-white rounded-lg shadow-md flex animate-pulse"
+              className="min-w-[280px] md:min-w-[320px] max-w-[320px] bg-white rounded-lg shadow-md animate-pulse"
             >
-              <div className="bg-slate-200 h-full w-[145px] p-4 rounded-l-lg" />
-              <div className="flex flex-col justify-between w-full p-4 gap-2">
-                <div className="h-4 bg-slate-200 rounded-full w-3/4" />
-                <div className="h-3 bg-slate-200 rounded-full w-1/2" />
+              <div className="bg-slate-200 h-40 w-full rounded-t-lg" />
+              <div className="p-4 flex flex-col gap-3">
+                <div className="h-4 w-3/4 bg-slate-200 rounded-full" />
+                <div className="h-3 w-1/2 bg-slate-200 rounded-full" />
                 <div className="flex gap-2">
-                  <div className="h-3 bg-slate-200 rounded-full w-1/2" />
-                  <div className="h-3 bg-slate-200 rounded-full w-1/2" />
+                  <div className="h-3 w-1/2 bg-slate-200 rounded-full" />
+                  <div className="h-3 w-1/2 bg-slate-200 rounded-full" />
                 </div>
-                <div className="h-6 bg-slate-200 rounded-full w-2/3" />
+                <div className="h-6 w-2/3 bg-slate-200 rounded-full" />
               </div>
             </div>
           ))}
@@ -57,22 +56,21 @@ const HorizontalCardProduct = ({ category, heading }) => {
         <div className="relative">
           <div
             ref={containerRef}
-            className="flex w-full h-full gap-4 overflow-x-auto scrollbar-none scroll-smooth"
+            className="flex gap-4 overflow-x-auto scrollbar-none scroll-smooth"
           >
             {data.map((product) => (
               <div
                 key={product._id}
-                className="flex min-w-[300px] max-w-[320px] h-40 bg-white rounded-lg shadow-md"
+                className="flex flex-col min-w-[280px] md:min-w-[320px] max-w-[320px] bg-white rounded-lg shadow-md"
               >
-                <div className="bg-slate-100 h-full p-3 flex items-center justify-center w-[145px] rounded-l-lg">
+                <div className="bg-slate-100 h-40 w-full p-3 flex items-center justify-center rounded-t-lg">
                   <img
                     src={product.productImage[0]}
                     alt={product.productName}
-                    className="object-contain h-full transition-transform duration-300 hover:scale-110"
+                    className="object-contain h-full transition-transform duration-300 hover:scale-110 mix-blend-multiply"
                   />
                 </div>
-
-                <div className="p-3 flex flex-col justify-between w-full">
+                <div className="p-4 flex flex-col gap-2">
                   <h2 className="font-semibold text-base md:text-lg text-black truncate">
                     {product.productName}
                   </h2>
@@ -99,10 +97,11 @@ const HorizontalCardProduct = ({ category, heading }) => {
             <>
               <button
                 onClick={scrollLeft}
-                className="absolute left-[-19px] top-1/2 -translate-y-1/2 bg-white shadow text-red-600 hover:bg-red-600 hover:text-white p-2 rounded-full z-10 hidden md:block"
+                className="absolute left-[19px] top-1/2 -translate-y-1/2 bg-white shadow text-red-600 hover:bg-red-600 hover:text-white p-2 rounded-full z-10 hidden md:block"
               >
                 <FaAngleLeft size={20} />
               </button>
+
               <button
                 onClick={scrollRight}
                 className="absolute right-[-19px] top-1/2 -translate-y-1/2 bg-white shadow text-red-600 hover:bg-red-600 hover:text-white p-2 rounded-full z-10 hidden md:block"
@@ -117,4 +116,4 @@ const HorizontalCardProduct = ({ category, heading }) => {
   );
 };
 
-export default HorizontalCardProduct;
+export default VerticalCardProduct;
