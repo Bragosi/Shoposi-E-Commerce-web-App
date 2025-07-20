@@ -17,7 +17,6 @@ const ChangeUserRole = ({
 
   const handleRoleChange = async (e) => {
     setUserRole(e.target.value);
-    console.log(e.target.value);
   };
 
   const updateUserRole = async () => {
