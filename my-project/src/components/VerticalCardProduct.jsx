@@ -88,7 +88,7 @@ const VerticalCardProduct = ({ category, heading }) => {
                       {displayCurrency(product.price)}
                     </p>
                   </div>
-                  <button onClick={(e)=>addToCart(e, product?._id)} className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full text-sm mt-2 w-fit">
+                  <button onClick={addToCart} className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full text-sm mt-2 w-fit">
                     Add to Cart
                   </button>
                 </div>

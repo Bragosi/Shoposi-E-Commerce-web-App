@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import summaryApi from "../common";
 import displayCurrency from "../Helpers/DisplayCurrency";
 import { FaStar, FaStarHalf } from "react-icons/fa";
+import addToCart from "../Helpers/AddtoCart";
+
 
 const ProductDetailPage = () => {
   const { productId } = useParams();
@@ -180,7 +182,9 @@ const ProductDetailPage = () => {
                 <button className="border-2 border-red-600 text-red-600 font-medium px-6 py-2 rounded hover:bg-red-600 hover:text-white hover:scale-105 transition duration-200">
                   Buy Now
                 </button>
-                <button className="border-2 border-red-600 text-red-600 font-medium px-6 py-2 rounded hover:bg-red-600 hover:text-white hover:scale-105 transition duration-200">
+                <button
+                onClick={addToCart}
+                 className="border-2 border-red-600 text-red-600 font-medium px-6 py-2 rounded hover:bg-red-600 hover:text-white hover:scale-105 transition duration-200">
                   Add to Cart
                 </button>
               </div>
