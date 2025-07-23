@@ -12,12 +12,17 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import ROLE from "../common/role.js";
+import { useContext } from "react";
+import Context from "../context/index.js";
 
 const Header = () => {
   const location = useLocation();
   const user = useSelector((state) => state?.user?.user);
   const dispatch = useDispatch();
   const [menu, setmenu] = useState(false);
+  const context = useContext(Context);
+  console.log("contex", context);
+
   const handleLogOut = async () => {
     const fetchData = await fetch(summaryApi.logOut.url, {
       method: summaryApi.logOut.method,
@@ -35,11 +40,11 @@ const Header = () => {
   };
 
   useEffect(() => {
-    setmenu(false);
+    setmenu(false)
   }, [location.pathname]);
-
   return (
-    <header className="w-full shadow-md">
+<header className="w-full header bg-transparent opacity-95 backdrop-blur-md fixed top-0 left-0 z-50 shadow-md">
+
       <div className="max-w-screen-xl mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo & Title */}
         <Link to="/" className="flex items-center gap-2">
@@ -69,20 +74,19 @@ const Header = () => {
             className="relative flex justify-center"
           >
             {user?._id && (
-               <div className="text-xl sm:text-2xl text-gray-700 hover:text-red-600 cursor-pointer transition-colors">
-              {user?.profilePic ? (
-                <img
-                  src={user?.profilePic}
-                  alt={user?.name}
-                  className="w-10 h-10 rounded-full"
-                />
-              ) : (
-                <FaRegCircleUser />
-              )}
-            </div>
+              <div className="text-xl sm:text-2xl text-gray-700 hover:text-red-600 cursor-pointer transition-colors">
+                {user?.profilePic ? (
+                  <img
+                    src={user?.profilePic}
+                    alt={user?.name}
+                    className="w-10 h-10 rounded-full"
+                  />
+                ) : (
+                  <FaRegCircleUser />
+                )}
+              </div>
             )}
-           
-            
+
             {menu && (
               <div className="absolute hidden md:block bottom-0 top-11 p-2 h-fit shadow-lg rounded">
                 <nav>
@@ -94,19 +98,21 @@ const Header = () => {
                     >
                       Admin
                     </Link>
-                  )}    
+                  )}
                 </nav>
               </div>
             )}
           </div>
 
           {/* Cart Icon with Badge */}
-          <div className="relative cursor-pointer text-xl sm:text-2xl text-gray-700 hover:text-red-600 transition-colors">
-            <FaShoppingCart />
-            <div className="absolute -top-1.5 -right-2 bg-red-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-semibold">
-              0
+          {user?._id && (
+            <div className="relative cursor-pointer text-xl sm:text-2xl text-gray-700 hover:text-red-600 transition-colors">
+              <FaShoppingCart />
+              <div className="absolute -top-1.5 -right-2 bg-red-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-semibold">
+                {context.cartProductCount}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Login Button */}
           <div>

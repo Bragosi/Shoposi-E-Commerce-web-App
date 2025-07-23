@@ -18,7 +18,7 @@ const LoginPage = () => {
     password: "",
   });
   const navigate = useNavigate();
-  const { fetchUserDetails } = useContext(Context);
+  const { fetchUserDetails, fetchCountCartProduct } = useContext(Context);
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -42,9 +42,12 @@ const LoginPage = () => {
 
       if (dataApi.error) {
         toast.error(dataApi.message);
+
+
       } else if (dataApi.success) {
         toast.success(dataApi.message);
         fetchUserDetails();
+        fetchCountCartProduct()
         navigate("/");
       }
     } catch (error) {

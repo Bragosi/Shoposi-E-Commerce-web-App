@@ -4,13 +4,15 @@ import displayCurrency from "../Helpers/DisplayCurrency";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import addToCart from "../Helpers/AddtoCart";
+import { useContext } from "react";
+import Context from "../context";
 
 const VerticalCardProduct = ({ category, heading }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const containerRef = useRef();
   const loadingList = new Array(13).fill(null);
-
+  const { fetchCountCartProduct } = useContext(Context);
   const fetchData = async () => {
     setLoading(true);
     const categoryProducts = await fetchCategoryProduct(category);
@@ -62,7 +64,7 @@ const VerticalCardProduct = ({ category, heading }) => {
           >
             {data.map((product) => (
               <Link
-                to={"productDetails/"+product?._id}
+                to={"productDetails/" + product?._id}
                 key={product._id}
                 className="flex flex-col min-w-[280px] md:min-w-[320px] max-w-[320px] cursor-pointer bg-white rounded-lg shadow-md"
               >
@@ -88,7 +90,12 @@ const VerticalCardProduct = ({ category, heading }) => {
                       {displayCurrency(product.price)}
                     </p>
                   </div>
-                  <button onClick={addToCart} className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full text-sm mt-2 w-fit">
+                  <button
+                    onClick={(e) =>
+                      addToCart(e, product?._id, fetchCountCartProduct)
+                    }
+                    className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full text-sm mt-2 w-fit"
+                  >
                     Add to Cart
                   </button>
                 </div>

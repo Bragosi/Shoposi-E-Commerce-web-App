@@ -1,18 +1,19 @@
 import { useEffect, useRef, useState } from "react";
 import fetchCategoryProduct from "../Helpers/FetchCategoryProduct";
 import displayCurrency from "../Helpers/DisplayCurrency";
-import { ClipLoader } from "react-spinners";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import addToCart from "../Helpers/AddtoCart";
+import { useContext } from "react";
+import Context from "../context";
 
 const HorizontalCardProduct = ({ category, heading }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const containerRef = useRef();
   const loadingList = new Array(13).fill(null);
-
-  const fetchData = async() => {
+  const { fetchCountCartProduct } = useContext(Context);
+  const fetchData = async () => {
     setLoading(true);
     const categoryProducts = await fetchCategoryProduct(category);
     setLoading(false);
@@ -91,8 +92,11 @@ const HorizontalCardProduct = ({ category, heading }) => {
                     </p>
                   </div>
                   <button
-                   onClick={(e)=>addToCart(e, product?._id)} 
-                   className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full text-sm mt-2 w-fit">
+                    onClick={(e) =>
+                      addToCart(e, product?._id, fetchCountCartProduct)
+                    }
+                    className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full text-sm mt-2 w-fit"
+                  >
                     Add to Cart
                   </button>
                 </div>

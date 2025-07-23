@@ -16,11 +16,12 @@ import AdminPanel from "./pages/AdminPanel";
 import AllUsersPage from "./pages/AllUsersPage";
 import AllProductsPage from "./pages/AllProductsPage";
 import ProductCategoryPage from "./pages/ProductCategoryPage";
-import AdminProductCard from "./components/AdminProductCard";
 import ProductDetailPage from "./pages/ProductDetailPage";
+import { useState } from "react";
 
 export default function App() {
   const dispatch = useDispatch();
+  const [cartProductCount, setcartProductCount] = useState()
 
   const fetchUserDetails = async () => {
     try {
@@ -46,23 +47,38 @@ export default function App() {
     }
   };
 
+  const fetchCountCartProduct = async()=>{
+    const response = await fetch(summaryApi.countCartProducts.url,{
+      method : summaryApi.countCartProducts.method,
+      credentials : "include"
+    })
+    const dataResponse = await response.json()
+  setcartProductCount(dataResponse?.data?.Count)
+    console.log("dataResponse", dataResponse.data.Count)
+  }
+
   useEffect(() => {
     /** user details */
     fetchUserDetails();
+    fetchCountCartProduct()
   }, []);
 
   return (
     <>
       <Context.Provider
         value={{
-          fetchUserDetails,
+          fetchUserDetails, // User details fetched
+          cartProductCount, // Current User Add to count
+          fetchCountCartProduct
         }}
       >
-        <ToastContainer />
+        <ToastContainer 
+        position="top-center"/>
         <Router>
           <div>
             <Header />
-            <Routes>
+              <div className="mt-16">
+              <Routes>
               <Route path="/" element={<Homepage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/forgotPassword" element={<ForgotPassword />} />
@@ -76,6 +92,7 @@ export default function App() {
               <Route path="/category/:categoryName" element={<ProductCategoryPage/>} />
               <Route path="/productDetails/:productId" element={<ProductDetailPage />} />
             </Routes>
+              </div>
             <Footer />
           </div>
         </Router>

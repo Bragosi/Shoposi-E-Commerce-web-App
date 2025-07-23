@@ -4,9 +4,11 @@ import summaryApi from "../common";
 import displayCurrency from "../Helpers/DisplayCurrency";
 import { FaStar, FaStarHalf } from "react-icons/fa";
 import addToCart from "../Helpers/AddtoCart";
-
+import { useContext } from "react";
+import Context from "../context";
 
 const ProductDetailPage = () => {
+  const { fetchCountCartProduct } = useContext(Context);
   const { productId } = useParams();
   const [activeImage, setActiveImage] = useState("");
   const loadingImageList = new Array(4).fill(null);
@@ -183,7 +185,7 @@ const ProductDetailPage = () => {
                   Buy Now
                 </button>
                 <button
-                onClick={addToCart}
+              onClick={(e) => addToCart(e, productId, fetchCountCartProduct)}
                  className="border-2 border-red-600 text-red-600 font-medium px-6 py-2 rounded hover:bg-red-600 hover:text-white hover:scale-105 transition duration-200">
                   Add to Cart
                 </button>
