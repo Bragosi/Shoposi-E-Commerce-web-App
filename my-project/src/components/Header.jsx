@@ -21,7 +21,6 @@ const Header = () => {
   const dispatch = useDispatch();
   const [menu, setmenu] = useState(false);
   const context = useContext(Context);
-  console.log("contex", context);
 
   const handleLogOut = async () => {
     const fetchData = await fetch(summaryApi.logOut.url, {
@@ -106,12 +105,14 @@ const Header = () => {
 
           {/* Cart Icon with Badge */}
           {user?._id && (
-            <div className="relative cursor-pointer text-xl sm:text-2xl text-gray-700 hover:text-red-600 transition-colors">
+            <Link
+            to={"cartproducts"}
+            className="relative cursor-pointer text-xl sm:text-2xl text-gray-700 transition-colors group">
               <FaShoppingCart />
-              <div className="absolute -top-1.5 -right-2 bg-red-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-semibold">
+              <div className="absolute group-hover:bg-white group-hover:text-red-500 transition-all -top-1.5 -right-2 bg-red-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-semibold">
                 {context.cartProductCount}
               </div>
-            </div>
+            </Link>
           )}
 
           {/* Login Button */}

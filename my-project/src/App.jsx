@@ -18,10 +18,11 @@ import AllProductsPage from "./pages/AllProductsPage";
 import ProductCategoryPage from "./pages/ProductCategoryPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import { useState } from "react";
+import CartProducts from "./pages/CartProducts";
 
 export default function App() {
   const dispatch = useDispatch();
-  const [cartProductCount, setcartProductCount] = useState()
+  const [cartProductCount, setcartProductCount] = useState();
 
   const fetchUserDetails = async () => {
     try {
@@ -47,20 +48,19 @@ export default function App() {
     }
   };
 
-  const fetchCountCartProduct = async()=>{
-    const response = await fetch(summaryApi.countCartProducts.url,{
-      method : summaryApi.countCartProducts.method,
-      credentials : "include"
-    })
-    const dataResponse = await response.json()
-  setcartProductCount(dataResponse?.data?.Count)
-    console.log("dataResponse", dataResponse.data.Count)
-  }
+  const fetchCountCartProduct = async () => {
+    const response = await fetch(summaryApi.countCartProducts.url, {
+      method: summaryApi.countCartProducts.method,
+      credentials: "include",
+    });
+    const dataResponse = await response.json();
+    setcartProductCount(dataResponse?.data?.Count);
+  };
 
   useEffect(() => {
     /** user details */
     fetchUserDetails();
-    fetchCountCartProduct()
+    fetchCountCartProduct();
   }, []);
 
   return (
@@ -69,30 +69,36 @@ export default function App() {
         value={{
           fetchUserDetails, // User details fetched
           cartProductCount, // Current User Add to count
-          fetchCountCartProduct
+          fetchCountCartProduct,
         }}
       >
-        <ToastContainer 
-        position="top-center"/>
+        <ToastContainer position="top-center" />
         <Router>
           <div>
             <Header />
-              <div className="mt-16">
+            <div className="mt-16">
               <Routes>
-              <Route path="/" element={<Homepage />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/forgotPassword" element={<ForgotPassword />} />
-              <Route path="/signUp" element={<SignUp />} />
-              
-              <Route path="/adminPanel" element={<AdminPanel />}>
-                <Route path="allUsers" element={<AllUsersPage />} />
-                <Route path="products" element={<AllProductsPage />} />
-              </Route>
+                <Route path="/" element={<Homepage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/forgotPassword" element={<ForgotPassword />} />
+                <Route path="/signUp" element={<SignUp />} />
 
-              <Route path="/category/:categoryName" element={<ProductCategoryPage/>} />
-              <Route path="/productDetails/:productId" element={<ProductDetailPage />} />
-            </Routes>
-              </div>
+                <Route path="/adminPanel" element={<AdminPanel />}>
+                  <Route path="allUsers" element={<AllUsersPage />} />
+                  <Route path="products" element={<AllProductsPage />} />
+                </Route>
+
+                <Route
+                  path="/category/:categoryName"
+                  element={<ProductCategoryPage />}
+                />
+                <Route
+                  path="/productDetails/:productId"
+                  element={<ProductDetailPage />}
+                />
+                <Route path="/cartProducts" element={<CartProducts />} />
+              </Routes>
+            </div>
             <Footer />
           </div>
         </Router>
