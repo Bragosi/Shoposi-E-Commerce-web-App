@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useContext } from "react";
 import Context from "../context/index.js";
 import displayCurrency from "../Helpers/DisplayCurrency.js";
-import { MdDelete } from 'react-icons/md'
+import { MdDelete } from "react-icons/md";
 const CartProducts = () => {
   const context = useContext(Context);
   const [data, setdata] = useState([]);
@@ -29,6 +29,7 @@ const CartProducts = () => {
     }
   };
 
+
   const increaseQty = async (id, qty) => {
     const response = await fetch(summaryApi.updateCartProduct.url, {
       method: summaryApi.updateCartProduct.method,
@@ -37,7 +38,7 @@ const CartProducts = () => {
         "content-type": "application/json",
       },
       body: JSON.stringify({
-        _id: id, // ✅ send the cartProductId
+        _id: id, //send the cartProductId
         quantity: qty + 1,
       }),
     });
@@ -69,6 +70,27 @@ const CartProducts = () => {
     }
   };
 
+
+  const DeleteCartProduct = async(id)=>{
+    const response = await fetch(summaryApi.deleteCartProduct.url, {
+      method : summaryApi.deleteCartProduct.method, 
+      credentials : 'include',
+      headers : {
+           "content-type" : 'application/json'
+      },
+      body : JSON.stringify(
+        {
+          _id : id,
+        }
+      )
+    })
+
+    const dataResponse = await response.json()
+
+    if (dataResponse.success) {
+      fetchCartProduct()
+    }
+  }
   useEffect(() => {
     fetchCartProduct();
   }, []);
@@ -84,10 +106,10 @@ const CartProducts = () => {
         {/** view Product */}
         <div className="w-full max-w-3xl p-4">
           {loading ? (
-            loadingCart.map((el) => {
+            loadingCart.map((el, index) => {
               return (
                 <div
-                  key={el + "Add to cart Loading"}
+                  key={el + "Add to cart Loading"+ index}
                   className="w-full bg-slate-200 h-32 my-2 border border-slate-300 animate-pulse rounded"
                 ></div>
               );
@@ -97,8 +119,9 @@ const CartProducts = () => {
               {data.map((product, index) => {
                 return (
                   <div
-                    key={product}
-                    className="w-full bg-white h-32 my-2 border border-slate-300 rounded flex flex-row"
+                    key={product?._id + "Add to cart Loading" || index}
+
+                    className="w-full bg-white shadow-md rounded-xl p-3 mb-4 flex gap-4 items-center"
                   >
                     <div className="w-32 h-32 bg-slate-200">
                       <img
@@ -107,11 +130,15 @@ const CartProducts = () => {
                         className="w-full h-full object-scale-down mix-blend-multiply"
                       />
                     </div>
-                    <div className="px-4 py-2 relative">
+                    <div className="flex-1 relative">
                       {/** delete product */}
-                      <div className="absolute cursor-pointer right-0 rounded-full text-red-600 p-2 hover:bg-red-600 hover:text-white">
-                        <MdDelete/>
-                      </div>
+                      <button
+                        onClick={() => DeleteCartProduct(product?._id)}
+                        className="absolute top-0 right-0 p-2 text-red-500 hover:bg-red-500 hover:text-white rounded-full transition"
+                      >
+                        <MdDelete size={20} />
+                      </button>
+
                       <h2 className="text-lg lg:text-xl text-ellipsis line-clamp-1">
                         {product?.productId?.productName}
                       </h2>
@@ -121,22 +148,23 @@ const CartProducts = () => {
                       <p className="text-red-600 text-lg font-medium">
                         {displayCurrency(product?.productId?.selling)}
                       </p>
-                      <div className="flex gap-3 items-center mt-2">
+                      <div className="flex items-center gap-3 mt-2">
                         <button
                           onClick={() =>
                             decreaseQty(product?._id, product?.quantity)
                           }
-                          className="flex rounded hover:bg-red-600 hover:text-white justify-center items-center border border-red-600 text-red-600 w-6 h-6"
+                          className="w-8 h-8 text-lg border border-red-500 text-red-500 hover:bg-red-500 hover:text-white rounded transition"
                         >
                           -
                         </button>
-
-                        <span>{product?.quantity}</span>
+                        <span className="min-w-[20px] text-center">
+                          {product?.quantity}
+                        </span>
                         <button
                           onClick={() =>
                             increaseQty(product?._id, product?.quantity)
                           }
-                          className="flex rounded hover:bg-red-600 hover:text-white justify-center items-center border border-red-600 text-red-600 w-6 h-6"
+                          className="w-8 h-8 text-lg border border-red-500 text-red-500 hover:bg-red-500 hover:text-white rounded transition"
                         >
                           +
                         </button>
