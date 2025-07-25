@@ -2,7 +2,7 @@ import logo from "../../public/logo (2).png";
 import { GrSearch } from "react-icons/gr";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { FaShoppingCart } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import summaryApi from "../common/index.js";
 import { toast } from "react-toastify";
@@ -21,6 +21,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const [menu, setmenu] = useState(false);
   const context = useContext(Context);
+  const navigate = useNavigate()
 
   const handleLogOut = async () => {
     const fetchData = await fetch(summaryApi.logOut.url, {
@@ -37,6 +38,16 @@ const Header = () => {
       toast.error(data.message);
     }
   };
+
+  const handleSearch = (e)=>{
+    const { value } = e.target
+
+    if (value) {
+      navigate(`/searchPage?q=${value}`)
+    }else{
+      navigate('/searchpage')
+    }
+  }
 
   useEffect(() => {
     setmenu(false)
@@ -56,6 +67,7 @@ const Header = () => {
         {/* Search Bar (Large Screens Only) */}
         <div className="hidden lg:flex items-center max-w-md w-full border rounded-full overflow-hidden bg-gray-100 pl-3">
           <input
+          onChange={handleSearch}
             type="text"
             placeholder="Search products..."
             className="w-full bg-transparent outline-none text-sm py-2"

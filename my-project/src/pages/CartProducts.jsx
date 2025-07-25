@@ -89,12 +89,15 @@ const CartProducts = () => {
 
     if (dataResponse.success) {
       fetchCartProduct()
+      context.fetchCountCartProduct()
     }
   }
   useEffect(() => {
     fetchCartProduct();
   }, []);
 
+  const totalQty = data.reduce((previousValue, currentValue)=> previousValue + currentValue.quantity, 0)
+  const totalPrice = data.reduce((prev, curr)=> prev + (curr.quantity * curr?.productId?.selling), 0)
   return (
     <div className="container mx-auto">
       <div className="text-center text-lg my-3">
@@ -145,8 +148,8 @@ const CartProducts = () => {
                       <p className="capitalize text-slate-500 text-sm">
                         {product?.productId?.category}
                       </p>
-                      <p className="text-red-600 text-lg font-medium">
-                        {displayCurrency(product?.productId?.selling)}
+                        <p className="text-red-600 text-lg font-medium">
+                        {displayCurrency(product?.productId?.selling * product?.quantity)}
                       </p>
                       <div className="flex items-center gap-3 mt-2">
                         <button
@@ -181,10 +184,20 @@ const CartProducts = () => {
         <div className="mt-5 lg:mt-0 w-full max-w-sm ">
           {loading ? (
             <div className="h-36 bg-slate-200 border border-slate-300 animate-pulse ">
-              total
             </div>
           ) : (
-            <div className="h-36 bg-slate-200 ">total</div>
+            <div className="h-36 bg-white mb-4">
+                <h2 className="text-white bg-red-600 px-4 py-1">Summary </h2>
+                <div className="flex justify-between items-center px-4 gap-2 font-medium text-lg text-slate-600 ">
+                  <p>Quantity</p>
+                  <p>{totalQty}</p>
+                </div>
+                <div className="flex justify-between items-center px-4 gap-2 font-medium text-lg text-slate-600 ">
+                  <h2>Total Price</h2>
+                  <p>{displayCurrency(totalPrice)}</p>
+                </div>
+                <button className="bg-blue-600 p-2 w-full"> Payment</button>
+              </div>
           )}
         </div>
       </div>

@@ -19,6 +19,7 @@ import ProductCategoryPage from "./pages/ProductCategoryPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import { useState } from "react";
 import CartProducts from "./pages/CartProducts";
+import SearchPage from "./pages/SearchPage";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -97,6 +98,7 @@ export default function App() {
                   element={<ProductDetailPage />}
                 />
                 <Route path="/cartProducts" element={<CartProducts />} />
+                 <Route path="/searchPage" element={<SearchPage />} />
               </Routes>
             </div>
             <Footer />
