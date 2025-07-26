@@ -5,6 +5,8 @@ import { useContext } from "react";
 import Context from "../context/index.js";
 import displayCurrency from "../Helpers/DisplayCurrency.js";
 import { MdDelete } from "react-icons/md";
+
+
 const CartProducts = () => {
   const context = useContext(Context);
   const [data, setdata] = useState([]);

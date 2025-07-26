@@ -20,7 +20,7 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 import { useState } from "react";
 import CartProducts from "./pages/CartProducts";
 import SearchPage from "./pages/SearchPage";
-
+ 
 export default function App() {
   const dispatch = useDispatch();
   const [cartProductCount, setcartProductCount] = useState();

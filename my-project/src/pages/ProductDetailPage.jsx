@@ -6,6 +6,7 @@ import { FaStar, FaStarHalf } from "react-icons/fa";
 import addToCart from "../Helpers/AddtoCart";
 import { useContext } from "react";
 import Context from "../context";
+import RecommendedProduct from "../components/RecommendedProduct";
 
 const ProductDetailPage = () => {
   const { fetchCountCartProduct } = useContext(Context);
@@ -204,7 +205,12 @@ const ProductDetailPage = () => {
           )}
         </div>
       </div>
-    </div>
+      {
+        data.category && (
+      <RecommendedProduct category={data?.category} heading={"Recommended Products"}/>
+        )
+      }
+          </div>
   );
 };
 

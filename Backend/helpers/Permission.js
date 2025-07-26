@@ -6,4 +6,4 @@ const UploadProdctPermission = async (userId) => {
   return user?.role === 'ADMIN';
 };
 
-module.exports = UploadProdctPermission;
+module.exports = UploadProdctPermission; 

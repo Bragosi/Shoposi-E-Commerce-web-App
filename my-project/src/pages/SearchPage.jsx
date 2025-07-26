@@ -5,7 +5,7 @@ import { ClipLoader } from 'react-spinners'
 
 const SearchPage = () => {
     const query = useLocation()
-    const [data, setdata] = useState([])
+    const [data, setdata] = useState([])   
     const [loading, setloading] = useState(false)
     console.log('query', query.search)
 

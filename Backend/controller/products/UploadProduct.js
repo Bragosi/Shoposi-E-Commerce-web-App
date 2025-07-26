@@ -6,7 +6,8 @@ async function UploadProductController(req, res) {
     const sessionUserId = req.userId;
 
     const hasPermission = await UploadProdctPermission(sessionUserId);
-    if (!hasPermission) {
+    if (!hasPermission) { 
+
       throw new Error("Permission Denied");
     }
 
