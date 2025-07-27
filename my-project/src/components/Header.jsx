@@ -99,13 +99,13 @@ const Header = () => {
             )}
 
             {menu && (
-              <div className="absolute hidden md:block bottom-0 top-11 p-2 h-fit shadow-lg rounded">
+              <div className="absolute hidden md:block bottom-0 top-11 p-2 h-fit shadow-lg bg-white rounded">
                 <nav>
                   {user?.role === ROLE.ADMIN && (
                     <Link
                       to={"/adminPanel/products"}
                       onClick={() => setmenu((prev) => !prev)}
-                      className="w-full whitespace-nowrap hover:bg-slate-100 p-2"
+                      className="w-full hover:text-red whitespace-nowrap p-2"
                     >
                       Admin
                     </Link>

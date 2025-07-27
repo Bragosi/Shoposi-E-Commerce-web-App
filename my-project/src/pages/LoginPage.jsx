@@ -64,7 +64,7 @@ const LoginPage = () => {
         {/* Logo */}
         <div className="w-20 h-20 mx-auto mb-6">
           <img src={LoginIcon} alt="login icon" className="object-contain" />
-        </div>
+        </div> 
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
