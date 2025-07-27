@@ -12,7 +12,7 @@ const SearchPage = () => {
 
   const fetchProduct = async () => {
     setloading(true);
-    setdata([]); // clear previous data
+    setdata([]);
     const response = await fetch(summaryApi.searchProduct.url + query.search);
     const dataResponse = await response.json();
     setloading(false);
