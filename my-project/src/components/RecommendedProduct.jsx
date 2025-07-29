@@ -25,7 +25,7 @@ const RecommendedProduct = ({ category, heading }) => {
 
   return (
     <div className="container mx-auto px-4 my-8">
-      <h2 className="font-semibold text-2xl mb-6">{heading}</h2>
+      <h2 className="font-semibold text-2xl mb-6 capitalize">{heading}</h2>
 
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
