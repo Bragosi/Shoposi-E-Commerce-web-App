@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import summaryApi from "../common";
 import displayCurrency from "../Helpers/DisplayCurrency";
 import { FaStar, FaStarHalf } from "react-icons/fa";
@@ -9,6 +9,7 @@ import Context from "../context";
 import RecommendedProduct from "../components/RecommendedProduct";
 
 const ProductDetailPage = () => {
+  const navigate = useNavigate()
   const { fetchCountCartProduct } = useContext(Context);
   const { productId } = useParams();
   const [activeImage, setActiveImage] = useState("");
@@ -78,6 +79,12 @@ const ProductDetailPage = () => {
   const handleLeaveImageZoom = () => {
     setzoomImage(false);
   };
+
+const handleBuyButton = async (e) => {
+  await addToCart(e, productId, fetchCountCartProduct);
+  navigate("/cartProducts");
+};
+
 
   return (
     <div className="container mx-auto px-4 py-8 mb-9">
@@ -182,9 +189,13 @@ const ProductDetailPage = () => {
 
               {/* Buttons */}
               <div className="flex gap-4 flex-wrap">
-                <button className="border-2 border-red-600 text-red-600 font-medium px-6 py-2 rounded hover:bg-red-600 hover:text-white hover:scale-105 transition duration-200">
-                  Buy Now
-                </button>
+<button
+  onClick={(e) => handleBuyButton(e)}
+  className="border-2 border-red-600 text-red-600 font-medium px-6 py-2 rounded hover:bg-red-600 hover:text-white hover:scale-105 transition duration-200"
+>
+  Buy Now
+</button>
+
                 <button
               onClick={(e) => addToCart(e, productId, fetchCountCartProduct)}
                  className="border-2 border-red-600 text-red-600 font-medium px-6 py-2 rounded hover:bg-red-600 hover:text-white hover:scale-105 transition duration-200">
