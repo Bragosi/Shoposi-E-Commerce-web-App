@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import ROLE from "../common/role.js";
 import { useContext } from "react";
 import Context from "../context/index.js";
+import MenuSvg from "./MenuSvg.jsx";
 
 const Header = () => {
   const location = useLocation();
@@ -22,6 +23,7 @@ const Header = () => {
   const [menu, setmenu] = useState(false);
   const context = useContext(Context);
   const navigate = useNavigate()
+  const [openNavigation, setOpenNavigation] = useState(false);
 
   const handleLogOut = async () => {
     const fetchData = await fetch(summaryApi.logOut.url, {
@@ -33,6 +35,7 @@ const Header = () => {
     if (data.success) {
       toast.success(data.message);
       dispatch(setUserDetails(null));
+      navigate("/")
     }
     if (data.error) {
       toast.error(data.message);
@@ -48,6 +51,14 @@ const Header = () => {
       navigate('/searchpage')
     }
   }
+    const toggleNavigation = () => {
+    if (openNavigation) {
+      setOpenNavigation(false);
+    } else {
+      setOpenNavigation(true);
+    }
+  };
+
 
   useEffect(() => {
     setmenu(false)
@@ -82,7 +93,7 @@ const Header = () => {
           {/* User Icon */}
           <div
             onClick={() => setmenu((prev) => !prev)}
-            className="relative flex justify-center"
+            className="relative md:flex justify-center hidden"
           >
             {user?._id && (
               <div className="text-xl sm:text-2xl text-gray-700 hover:text-red-600 cursor-pointer transition-colors">
@@ -99,7 +110,7 @@ const Header = () => {
             )}
 
             {menu && (
-              <div className="absolute hidden md:block bottom-0 top-11 p-2 h-fit shadow-lg bg-white rounded">
+              <div className="absolute bottom-0 top-11 p-2 h-fit shadow-lg bg-white rounded">
                 <nav>
                   {user?.role === ROLE.ADMIN && (
                     <Link
@@ -128,7 +139,7 @@ const Header = () => {
           )}
 
           {/* Login Button */}
-          <div>
+          <div className="hidden md:flex">
             {user?._id ? (
               <button
                 onClick={handleLogOut}
@@ -144,6 +155,73 @@ const Header = () => {
               </Link>
             )}
           </div>
+<div
+  className="md:hidden p-2 rounded-full hover:bg-gray-100 transition-all border border-gray-300 cursor-pointer"
+  onClick={toggleNavigation}
+>
+  <MenuSvg openNavigation={openNavigation} />
+</div>
+
+
+            {/** items under menu */}
+{openNavigation && (
+  <div className="absolute right-4 top-16 w-56 bg-white rounded-lg shadow-lg p-4 flex flex-col gap-4 z-50">
+    {/* User avatar */}
+    {user?._id && (
+      <div className="flex items-center gap-2">
+        {user?.profilePic ? (
+          <img
+            src={user?.profilePic}
+            alt={user?.name}
+            className="w-10 h-10 rounded-full"
+          />
+        ) : (
+          <FaRegCircleUser className="text-2xl text-gray-700" />
+        )}
+        <p className="text-sm font-medium text-gray-700">{user?.name}</p>
+      </div>
+    )}
+
+    {/* Admin Panel Link */}
+    {user?.role === ROLE.ADMIN && (
+      <Link
+        to="/adminPanel/products"
+        onClick={() => setOpenNavigation(false)}
+        className="text-sm text-gray-600 hover:text-red-600"
+      >
+        Upload Products
+      </Link>
+    )}
+
+    {/* All Users Link */}
+      {user?.role === ROLE.ADMIN && ( 
+      <Link
+      to="/adminPanel/allUsers"
+      onClick={() => setOpenNavigation(false)}
+      className="text-sm text-gray-600 hover:text-red-600"
+    >
+      All Users
+    </Link>
+      )}
+
+    {/* Auth Button */}
+    {user?._id ? (
+      <button
+        onClick={handleLogOut}
+        className="w-full px-4 py-2 rounded-full text-white text-sm bg-red-600 hover:bg-red-700 transition-all"
+      >
+        Log out
+      </button>
+    ) : (
+      <Link to="/login">
+        <button onClick={()=>setOpenNavigation(false)} className="w-full px-4 py-2 rounded-full text-white text-sm bg-red-600 hover:bg-red-700 transition-all">
+          Login
+        </button>
+      </Link>
+    )}
+  </div>
+)}
+
         </div>
       </div>
     </header>

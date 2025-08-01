@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { useEffect } from "react";
 import ROLE from "../common/role";
+import { GoSidebarCollapse } from "react-icons/go";
 
 
 const AdminPanel = () => {
@@ -15,8 +16,10 @@ const AdminPanel = () => {
     }
   })
   return (
-    <div className="min-h-[calc(100vh-120px)] md:flex border hidden">
-      <aside className="w-full max-w-60 min-h-full pt-8 rightShadow">
+    
+    <div className="min-h-[calc(100vh-120px)] md:flex border">
+     <div className="hidden lg:flex w-full max-w-60 min-h-full pt-8 rightShadow">
+       <aside className="w-full">
         {/* Profile */}
         <div className="h-32 flex flex-col justify-center items-center">
           <div className="text-5xl flex justify-center text-gray-700 hover:text-red-600 cursor-pointer transition-colors">
@@ -44,10 +47,12 @@ const AdminPanel = () => {
           </Link>
         </nav>
       </aside>
+     </div>
 
       <main className="flex-1 p-4 w-full h-full">
         <Outlet/>
       </main>
+
     </div>
   );
 };

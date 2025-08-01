@@ -33,8 +33,6 @@ const AllUsersPage = () => {
       if (dataResponse.error) {
         toast.error(dataResponse.message);
       }
-
-      console.log("data response", dataResponse);
     } catch (err) {
       console.error("Error fetching all users:", err.message || err);
     } finally {
@@ -47,7 +45,7 @@ const AllUsersPage = () => {
   }, []);
 
   return (
-    <div className="rounded-lg shadow-md p-6 overflow-x-auto">
+    <div className="rounded-lg shadow-md p-6 ">
       <h2 className="text-2xl font-semibold mb-4">All Users</h2>
       {loading ? (
         <div className="flex justify-center items-center py-10">
@@ -57,7 +55,7 @@ const AllUsersPage = () => {
           </span>
         </div>
       ) : (
-        <table className="min-w-full border-collapse rounded-lg overflow-hidden shadow">
+        <table className="min-w-full border-collapse rounded-lg overflow-x-auto overflow-hidden shadow">
           <thead className="bg-gray-900 text-gray-100 text-sm">
             <tr>
               <th className="py-3 px-4 border-b border-r border-gray-300 text-left">

@@ -14,7 +14,6 @@ const CartProducts = () => {
   const loadingCart = new Array(context.cartProductCount).fill(null);
 
   const fetchCartProduct = async () => {
-    setloading(true);
     const response = await fetch(summaryApi.viewCartProducts.url, {
       method: summaryApi.viewCartProducts.method,
       credentials: "include",
@@ -23,7 +22,6 @@ const CartProducts = () => {
       },
     });
 
-    setloading(false);
     const dataResponse = await response.json();
     console.log("CartResponse", dataResponse);
     if (dataResponse.success) {
@@ -94,17 +92,22 @@ const CartProducts = () => {
       context.fetchCountCartProduct()
     }
   }
+  const handleLoading = async()=>{
+    await fetchCartProduct()
+  }
   useEffect(() => {
-    fetchCartProduct();
+    setloading(true)
+    handleLoading()
+    setloading(false)
   }, []);
 
   const totalQty = data.reduce((previousValue, currentValue)=> previousValue + currentValue.quantity, 0)
   const totalPrice = data.reduce((prev, curr)=> prev + (curr.quantity * curr?.productId?.selling), 0)
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto min-h-screen">
       <div className="text-center text-lg my-3">
         {data.length === 0 && !loading && (
-          <p className="bg-white py-5 ">No data</p>
+          <p className="py-5 text-xl text-gray-500 ">No Product Selected</p>
         )}
       </div>
       <div className="flex flex-col lg:flex-row gap-10 justify-between">
