@@ -10,19 +10,18 @@ const AllProductsPage = () => {
   const [openUploadProduct, setopenUploadProduct] = useState(false);
   const [allProduct, setallProduct] = useState([]);
 
-const fetchAllProducts = async () => {
-  setLoading(true);
-  try {
-    const response = await fetch(summaryApi.allProduct.url);
-    const dataResponse = await response.json();
-    setallProduct(dataResponse?.data || []);
-  } catch (error) {
-    console.log("error", error);
-  } finally {
-    setLoading(false);
-  }
-};
-
+  const fetchAllProducts = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(summaryApi.allProduct.url);
+      const dataResponse = await response.json();
+      setallProduct(dataResponse?.data || []);
+    } catch (error) {
+      console.log("error", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     fetchAllProducts();

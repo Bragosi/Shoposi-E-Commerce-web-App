@@ -22,7 +22,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const [menu, setmenu] = useState(false);
   const context = useContext(Context);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [openNavigation, setOpenNavigation] = useState(false);
 
   const handleLogOut = async () => {
@@ -35,23 +35,23 @@ const Header = () => {
     if (data.success) {
       toast.success(data.message);
       dispatch(setUserDetails(null));
-      navigate("/")
+      navigate("/");
     }
     if (data.error) {
       toast.error(data.message);
     }
   };
 
-  const handleSearch = (e)=>{
-    const { value } = e.target
+  const handleSearch = (e) => {
+    const { value } = e.target;
 
     if (value) {
-      navigate(`/searchPage?q=${value}`)
-    }else{
-      navigate('/searchpage')
+      navigate(`/searchPage?q=${value}`);
+    } else {
+      navigate("/searchpage");
     }
-  }
-    const toggleNavigation = () => {
+  };
+  const toggleNavigation = () => {
     if (openNavigation) {
       setOpenNavigation(false);
     } else {
@@ -59,13 +59,11 @@ const Header = () => {
     }
   };
 
-
   useEffect(() => {
-    setmenu(false)
+    setmenu(false);
   }, [location.pathname]);
   return (
-<header className="w-full header bg-transparent opacity-95 backdrop-blur-md fixed top-0 left-0 z-50 shadow-md">
-
+    <header className="w-full header bg-transparent opacity-95 backdrop-blur-md fixed top-0 left-0 z-50 shadow-md">
       <div className="max-w-screen-xl mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo & Title */}
         <Link to="/" className="flex items-center gap-2">
@@ -78,7 +76,7 @@ const Header = () => {
         {/* Search Bar (Large Screens Only) */}
         <div className="hidden lg:flex items-center max-w-md w-full border rounded-full overflow-hidden bg-gray-100 pl-3">
           <input
-          onChange={handleSearch}
+            onChange={handleSearch}
             type="text"
             placeholder="Search products..."
             className="w-full bg-transparent outline-none text-sm py-2"
@@ -129,8 +127,9 @@ const Header = () => {
           {/* Cart Icon with Badge */}
           {user?._id && (
             <Link
-            to={"cartproducts"}
-            className="relative cursor-pointer text-xl sm:text-2xl text-gray-700 transition-colors group">
+              to={"cartproducts"}
+              className="relative cursor-pointer text-xl sm:text-2xl text-gray-700 transition-colors group"
+            >
               <FaShoppingCart />
               <div className="absolute group-hover:bg-white group-hover:text-red-500 transition-all -top-1.5 -right-2 bg-red-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-semibold">
                 {context.cartProductCount}
@@ -155,73 +154,76 @@ const Header = () => {
               </Link>
             )}
           </div>
-<div
-  className="md:hidden p-2 rounded-full hover:bg-gray-100 transition-all border border-gray-300 cursor-pointer"
-  onClick={toggleNavigation}
->
-  <MenuSvg openNavigation={openNavigation} />
-</div>
+          <div
+            className="md:hidden p-2 rounded-full hover:bg-gray-100 transition-all border border-gray-300 cursor-pointer"
+            onClick={toggleNavigation}
+          >
+            <MenuSvg openNavigation={openNavigation} />
+          </div>
 
+          {/** items under menu */}
+          {openNavigation && (
+            <div className="absolute right-4 top-16 w-56 bg-white rounded-lg shadow-lg p-4 flex flex-col gap-4 z-50">
+              {/* User avatar */}
+              {user?._id && (
+                <div className="flex items-center gap-2">
+                  {user?.profilePic ? (
+                    <img
+                      src={user?.profilePic}
+                      alt={user?.name}
+                      className="w-10 h-10 rounded-full"
+                    />
+                  ) : (
+                    <FaRegCircleUser className="text-2xl text-gray-700" />
+                  )}
+                  <p className="text-sm font-medium text-gray-700">
+                    {user?.name}
+                  </p>
+                </div>
+              )}
 
-            {/** items under menu */}
-{openNavigation && (
-  <div className="absolute right-4 top-16 w-56 bg-white rounded-lg shadow-lg p-4 flex flex-col gap-4 z-50">
-    {/* User avatar */}
-    {user?._id && (
-      <div className="flex items-center gap-2">
-        {user?.profilePic ? (
-          <img
-            src={user?.profilePic}
-            alt={user?.name}
-            className="w-10 h-10 rounded-full"
-          />
-        ) : (
-          <FaRegCircleUser className="text-2xl text-gray-700" />
-        )}
-        <p className="text-sm font-medium text-gray-700">{user?.name}</p>
-      </div>
-    )}
+              {/* Admin Panel Link */}
+              {user?.role === ROLE.ADMIN && (
+                <Link
+                  to="/adminPanel/products"
+                  onClick={() => setOpenNavigation(false)}
+                  className="text-sm text-gray-600 hover:text-red-600"
+                >
+                  Upload Products
+                </Link>
+              )}
 
-    {/* Admin Panel Link */}
-    {user?.role === ROLE.ADMIN && (
-      <Link
-        to="/adminPanel/products"
-        onClick={() => setOpenNavigation(false)}
-        className="text-sm text-gray-600 hover:text-red-600"
-      >
-        Upload Products
-      </Link>
-    )}
+              {/* All Users Link */}
+              {user?.role === ROLE.ADMIN && (
+                <Link
+                  to="/adminPanel/allUsers"
+                  onClick={() => setOpenNavigation(false)}
+                  className="text-sm text-gray-600 hover:text-red-600"
+                >
+                  All Users
+                </Link>
+              )}
 
-    {/* All Users Link */}
-      {user?.role === ROLE.ADMIN && ( 
-      <Link
-      to="/adminPanel/allUsers"
-      onClick={() => setOpenNavigation(false)}
-      className="text-sm text-gray-600 hover:text-red-600"
-    >
-      All Users
-    </Link>
-      )}
-
-    {/* Auth Button */}
-    {user?._id ? (
-      <button
-        onClick={handleLogOut}
-        className="w-full px-4 py-2 rounded-full text-white text-sm bg-red-600 hover:bg-red-700 transition-all"
-      >
-        Log out
-      </button>
-    ) : (
-      <Link to="/login">
-        <button onClick={()=>setOpenNavigation(false)} className="w-full px-4 py-2 rounded-full text-white text-sm bg-red-600 hover:bg-red-700 transition-all">
-          Login
-        </button>
-      </Link>
-    )}
-  </div>
-)}
-
+              {/* Auth Button */}
+              {user?._id ? (
+                <button
+                  onClick={handleLogOut}
+                  className="w-full px-4 py-2 rounded-full text-white text-sm bg-red-600 hover:bg-red-700 transition-all"
+                >
+                  Log out
+                </button>
+              ) : (
+                <Link to="/login">
+                  <button
+                    onClick={() => setOpenNavigation(false)}
+                    className="w-full px-4 py-2 rounded-full text-white text-sm bg-red-600 hover:bg-red-700 transition-all"
+                  >
+                    Login
+                  </button>
+                </Link>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </header>
