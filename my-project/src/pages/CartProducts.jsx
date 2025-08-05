@@ -5,6 +5,7 @@ import { useContext } from "react";
 import Context from "../context/index.js";
 import displayCurrency from "../Helpers/DisplayCurrency.js";
 import { MdDelete } from "react-icons/md";
+import PlaceOrder from "../components/PlaceOrder.jsx";
 
 
 const CartProducts = () => {
@@ -12,6 +13,7 @@ const CartProducts = () => {
   const [data, setdata] = useState([]);
   const [loading, setloading] = useState(false);
   const loadingCart = new Array(context.cartProductCount).fill(null);
+  const [orderFormPage, setorderFormPage] = useState(false)
 
   const fetchCartProduct = async () => {
     const response = await fetch(summaryApi.viewCartProducts.url, {
@@ -104,7 +106,7 @@ const CartProducts = () => {
   const totalQty = data.reduce((previousValue, currentValue)=> previousValue + currentValue.quantity, 0)
   const totalPrice = data.reduce((prev, curr)=> prev + (curr.quantity * curr?.productId?.selling), 0)
   return (
-    <div className="container mx-auto min-h-screen">
+<div className="container mx-auto px-4 py-6 min-h-screen">
       <div className="text-center text-lg my-3">
         {data.length === 0 && !loading && (
           <p className="py-5 text-xl text-gray-500 ">No Product Selected</p>
@@ -186,7 +188,7 @@ const CartProducts = () => {
         </div>
 
         {/** summary */}
-        <div className="mt-5 lg:mt-0 w-full max-w-sm ">
+        <div className="lg:mt-4 w-full lg:max-w-xs lg:fixed lg:right-9 ">
           {loading ? (
             <div className="h-36 bg-slate-200 border border-slate-300 animate-pulse ">
             </div>
@@ -201,10 +203,20 @@ const CartProducts = () => {
                   <h2>Total Price</h2>
                   <p>{displayCurrency(totalPrice)}</p>
                 </div>
-                <button className="bg-blue-600 p-2 w-full"> Payment</button>
+                <button onClick={()=>setorderFormPage(true)} className="bg-green-500 hover:bg-green-600 font-serif text-gray-800 p-2 w-full">
+                     Proceed to Checkout
+                </button>
               </div>
           )}
         </div>
+      </div>
+
+      <div>
+       {
+        orderFormPage && (
+           <PlaceOrder close={()=>setorderFormPage(false)}  />
+        )
+       }
       </div>
     </div>
   );

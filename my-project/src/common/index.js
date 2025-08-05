@@ -72,6 +72,10 @@ const summaryApi = {
     url: `${backendDomain}/api/search`,
     method: "get",
   },
+  placeOrder : {
+    url: `${backendDomain}/api/placeOrder`,
+    method: "post",
+  }
 };
 
 export default summaryApi;
