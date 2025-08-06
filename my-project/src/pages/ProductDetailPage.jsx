@@ -131,7 +131,7 @@ const ProductDetailPage = () => {
                     key={img}
                     onClick={() => handleMouseEnterProduct(img)}
                     onMouseEnter={() => handleMouseEnterProduct(img)}
-                    className={`w-20 h-20 bg-slate-300 rounded-md border-2 ${
+                    className={`w-20 h-20 rounded-md border-2 ${
                       img === activeImage
                         ? "border-red-500"
                         : "border-transparent"
@@ -140,7 +140,7 @@ const ProductDetailPage = () => {
                     <img
                       src={img}
                       alt={`Thumbnail ${index + 1}`}
-                      className="w-full h-full object-contain p-1"
+                      className="w-full h-full object-contain p-1 mix-blend-multiply"
                     />
                   </div>
                 ))}

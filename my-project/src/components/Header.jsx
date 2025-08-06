@@ -204,6 +204,17 @@ const Header = () => {
                 </Link>
               )}
 
+              {/** Orders Page */}
+                {user?.role === ROLE.ADMIN && (
+                <Link
+                  to="/adminPanel/orders"
+                  onClick={() => setOpenNavigation(false)}
+                  className="text-sm text-gray-600 hover:text-red-600"
+                >
+                  Orders
+                </Link>
+              )}
+
               {/* Auth Button */}
               {user?._id ? (
                 <button

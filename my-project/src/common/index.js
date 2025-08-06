@@ -75,6 +75,10 @@ const summaryApi = {
   placeOrder : {
     url: `${backendDomain}/api/placeOrder`,
     method: "post",
+  },
+  fetchOrders :{
+    url: `${backendDomain}/api/allOrders`,
+    method: "get",
   }
 };
 

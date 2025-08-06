@@ -20,7 +20,9 @@ import ProductDetailPage from "./pages/ProductDetailPage";
 import { useState } from "react";
 import CartProducts from "./pages/CartProducts";
 import SearchPage from "./pages/SearchPage";
- 
+import OrdersPage from "./pages/OrdersPage";
+import OrderedProduct from "./components/OrderedProduct";
+
 export default function App() {
   const dispatch = useDispatch();
   const [cartProductCount, setcartProductCount] = useState();
@@ -74,6 +76,7 @@ export default function App() {
         }}
       >
         <ToastContainer position="top-center" />
+
         <Router>
           <div>
             <Header />
@@ -87,6 +90,11 @@ export default function App() {
                 <Route path="/adminPanel" element={<AdminPanel />}>
                   <Route path="allUsers" element={<AllUsersPage />} />
                   <Route path="products" element={<AllProductsPage />} />
+                  <Route path="orders" element={<OrdersPage />} />
+                  <Route
+                    path="orders/orderedProducts/:productId"
+                    element={<OrderedProduct />}
+                  />
                 </Route>
 
                 <Route
@@ -98,7 +106,7 @@ export default function App() {
                   element={<ProductDetailPage />}
                 />
                 <Route path="/cartProducts" element={<CartProducts />} />
-                 <Route path="/searchPage" element={<SearchPage />} />
+                <Route path="/searchPage" element={<SearchPage />} />
               </Routes>
             </div>
             <Footer />

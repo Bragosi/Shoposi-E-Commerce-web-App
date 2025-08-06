@@ -25,7 +25,6 @@ const CartProducts = () => {
     });
 
     const dataResponse = await response.json();
-    console.log("CartResponse", dataResponse);
     if (dataResponse.success) {
       setdata(dataResponse.data);
     }
@@ -214,7 +213,7 @@ const CartProducts = () => {
       <div>
        {
         orderFormPage && (
-           <PlaceOrder close={()=>setorderFormPage(false)}  />
+           <PlaceOrder close={()=>setorderFormPage(false)} totalCartAmount={displayCurrency(totalPrice)} />
         )
        }
       </div>

@@ -2,7 +2,9 @@ const OrderModel = require("../../models/OrderModel");
 
 const getPlacedOrder = async (req, res) => {
   try {
-    const allOrders = await OrderModel.find().sort({ createdAt: -1 });
+    const allOrders = await OrderModel.find()
+      .sort({ createdAt: -1 })
+      .populate("orderedItems.productId") 
 
     res.json({
       data: allOrders,

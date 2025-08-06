@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import Context from "../context";
 
-const PlaceOrder = ({ close }) => {
+const PlaceOrder = ({ close, totalCartAmount }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { fetchCountCartProduct } = useContext(Context);
@@ -15,6 +15,7 @@ const PlaceOrder = ({ close }) => {
     name: "",
     city: "",
     phoneNumber: "",
+    totalAmount : ""
   });
 
   const handleChange = (e) => {
@@ -24,8 +25,12 @@ const PlaceOrder = ({ close }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Data:", formData);
     setLoading(true);
+
+     const orderData = {
+    ...formData,
+    totalAmount: totalCartAmount,
+  };
 
     try {
       const response = await fetch(summaryApi.placeOrder.url, {
@@ -34,11 +39,10 @@ const PlaceOrder = ({ close }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(orderData),
       });
 
       const dataResponse = await response.json();
-      console.log("dataResponse", dataResponse);
 
       if (dataResponse.success) {
         toast.success(dataResponse.message);
@@ -119,17 +123,17 @@ const PlaceOrder = ({ close }) => {
 
             <button
               type="submit"
-              className={`w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-md font-semibold text-lg transition ${
+              className={`w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-md font-semibold text-lg gap-2 transition ${
                 loading ? "opacity-60 cursor-not-allowed" : "hover:bg-red-700"
               } `}
             >
               {loading ? (
-                <>
+                <div className="gap-4 flex justify-center items-center">
                   <ClipLoader size={20} color="#fff" />
-                  Placing Order
-                </>
+                  <p>Placing Order</p>
+                </div>
               ) : (
-                "              Place Order"
+                <p>Place Order of { totalCartAmount}</p>
               )}
             </button>
           </form>

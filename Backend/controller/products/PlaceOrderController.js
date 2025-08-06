@@ -4,7 +4,7 @@ const OrderModel = require("../../models/OrderModel");
 const placeOrderController = async (req, res) => {
   try {
     const userId = req.userId;
-    const { name, phoneNumber, city } = req.body;
+    const { name, phoneNumber, city, totalAmount } = req.body;
 
     const cartItems = await AddToCartModel.find({ userId });
 
@@ -12,27 +12,30 @@ const placeOrderController = async (req, res) => {
       return res.status(400).json({ message: "Your cart is empty." });
     }
 
-    const orders = [];
-
-    for (const item of cartItems) {
-      const newOrder = new OrderModel({
+    const orderData = {
+      userId,
+      name,
+      phoneNumber,
+      city,
+      totalAmount,
+      status: "PENDING",
+      orderedItems: cartItems.map((item) => ({
         productId: item.productId,
-        userId,
-        name,
-        phoneNumber,
-        city,
-        status: "PENDING",
-      });
+        productName: item.productName,
+        productImage: item.productImage,
+        price: item.price,
+        selling: item.selling,
+        quantity: item.quantity || 1,
+      })),
+    };
 
-      const placedOrder = await newOrder.save();
-      orders.push(placedOrder);
-    }
+    const newOrder = await OrderModel.create(orderData);
 
     await AddToCartModel.deleteMany({ userId });
 
     res.status(201).json({
-      data: orders,
-      message: "Order(s) placed successfully!",
+      data: newOrder,
+      message: "Order placed successfully!",
       error: false,
       success: true,
     });

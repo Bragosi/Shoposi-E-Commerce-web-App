@@ -49,9 +49,9 @@ router.get("/countCartProduct", authToken, CountCartProducts)
 router.get("/viewCartProducts", authToken, ViewCartProducts)
 router.post("/updateCartProduct", authToken, UpdateCartProduct)
 router.post("/deleteCartProduct", authToken, DeleteCartProduct)
-router.get("/allOrders", getPlacedOrder)
+
 
 //order 
 router.post("/placeOrder", authToken, placeOrderController)
-
+router.get("/allOrders", authToken, getPlacedOrder)
 module.exports = router;      
