@@ -22,6 +22,8 @@ const DeleteCartProduct = require('../controller/user/DeleteCartProducts');
 const searchProduct = require('../controller/products/SearchProduct');
 const placeOrderController = require('../controller/products/PlaceOrderController');
 const getPlacedOrder = require('../controller/products/GetPlacedOrder');
+const updateOrderStatus = require('../controller/products/UpdateOrderStatus');
+const DeleteOrder = require('../controller/products/DeleteOrder');
 
 router.post('/signUp', userSignUp)
 router.post('/login', UserSignIn )
@@ -54,4 +56,6 @@ router.post("/deleteCartProduct", authToken, DeleteCartProduct)
 //order 
 router.post("/placeOrder", authToken, placeOrderController)
 router.get("/allOrders", authToken, getPlacedOrder)
+router.post("/orderStatus", authToken, updateOrderStatus)
+router.post("/deleteOrder", authToken, DeleteOrder)
 module.exports = router;      

@@ -2,10 +2,13 @@ import { useEffect, useState } from "react";
 import summaryApi from "../common";
 import { Link } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
+import { FaCheckCircle } from "react-icons/fa";
+
 
 const OrdersPage = () => {
   const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState([]);
+  const [comfrimCompletion, setcomfrimCompletion] = useState(false)
 
   const fetchOrders = async () => {
     setLoading(true);
@@ -56,7 +59,7 @@ const OrdersPage = () => {
               state={{ order }}
               to={`orderedProducts/${order._id}`}
               key={order._id}
-              className="bg-white border border-gray-200 rounded-xl shadow-md hover:shadow-lg hover:scale-110 transition duration-300 p-5"
+              className="bg-white border border-gray-200 rounded-xl shadow-md hover:shadow-lg hover:scale-105 transition duration-300 p-5"
             >
               <h3 className="text-lg font-semibold text-gray-700 mb-2 capitalize">
                 <span className="text-red-700 capitalize">{order.name}</span>{" "}
@@ -86,10 +89,22 @@ const OrdersPage = () => {
                   {order.status}
                 </span>
               </p>
+            <button onClick={()=>setcomfrimCompletion(true)}>
+                <FaCheckCircle />
+            </button>
+
             </Link>
           ))}
         </div>
       )}
+
+      <div>
+        {
+          comfrimCompletion && (
+            <comfrimCompletion close={()=>setcomfrimCompletion(false)} />
+          )
+        }
+      </div>
     </div>
   );
 };

@@ -72,14 +72,22 @@ const summaryApi = {
     url: `${backendDomain}/api/search`,
     method: "get",
   },
-  placeOrder : {
+  placeOrder: {
     url: `${backendDomain}/api/placeOrder`,
     method: "post",
   },
-  fetchOrders :{
+  fetchOrders: {
     url: `${backendDomain}/api/allOrders`,
     method: "get",
-  }
+  },
+  orderStatus: {
+    url: `${backendDomain}/api/orderStatus`,
+    method: "post",
+  },
+  deleteOrder: {
+    url: `${backendDomain}/api/deleteOrder`,
+    method: "post",
+  },
 };
 
 export default summaryApi;

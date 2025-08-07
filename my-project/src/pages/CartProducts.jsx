@@ -7,29 +7,34 @@ import displayCurrency from "../Helpers/DisplayCurrency.js";
 import { MdDelete } from "react-icons/md";
 import PlaceOrder from "../components/PlaceOrder.jsx";
 
-
 const CartProducts = () => {
   const context = useContext(Context);
   const [data, setdata] = useState([]);
   const [loading, setloading] = useState(false);
   const loadingCart = new Array(context.cartProductCount).fill(null);
-  const [orderFormPage, setorderFormPage] = useState(false)
+  const [orderFormPage, setorderFormPage] = useState(false);
 
   const fetchCartProduct = async () => {
-    const response = await fetch(summaryApi.viewCartProducts.url, {
-      method: summaryApi.viewCartProducts.method,
-      credentials: "include",
-      headers: {
-        "content-type": "application/json",
-      },
-    });
+    setloading(true);  
+    try {
+      const response = await fetch(summaryApi.viewCartProducts.url, {
+        method: summaryApi.viewCartProducts.method,
+        credentials: "include",
+        headers: {
+          "content-type": "application/json",
+        },
+      });
 
-    const dataResponse = await response.json();
-    if (dataResponse.success) {
-      setdata(dataResponse.data);
+      const dataResponse = await response.json();
+      if (dataResponse.success) {
+        setdata(dataResponse.data);
+      }
+    } catch (error) {
+      console.log("error", error);
+    } finally {
+      setloading(false);
     }
   };
-
 
   const increaseQty = async (id, qty) => {
     const response = await fetch(summaryApi.updateCartProduct.url, {
@@ -71,41 +76,44 @@ const CartProducts = () => {
     }
   };
 
-
-  const DeleteCartProduct = async(id)=>{
+  const DeleteCartProduct = async (id) => {
     const response = await fetch(summaryApi.deleteCartProduct.url, {
-      method : summaryApi.deleteCartProduct.method, 
-      credentials : 'include',
-      headers : {
-           "content-type" : 'application/json'
+      method: summaryApi.deleteCartProduct.method,
+      credentials: "include",
+      headers: {
+        "content-type": "application/json",
       },
-      body : JSON.stringify(
-        {
-          _id : id,
-        }
-      )
-    })
+      body: JSON.stringify({
+        _id: id,
+      }),
+    });
 
-    const dataResponse = await response.json()
+    const dataResponse = await response.json();
 
     if (dataResponse.success) {
-      fetchCartProduct()
-      context.fetchCountCartProduct()
+      fetchCartProduct();
+      context.fetchCountCartProduct();
     }
-  }
-  const handleLoading = async()=>{
-    await fetchCartProduct()
-  }
+  };
+  const handleLoading = async () => {
+    await fetchCartProduct();
+  };
   useEffect(() => {
-    setloading(true)
-    handleLoading()
-    setloading(false)
+    setloading(true);
+    handleLoading();
+    setloading(false);
   }, []);
 
-  const totalQty = data.reduce((previousValue, currentValue)=> previousValue + currentValue.quantity, 0)
-  const totalPrice = data.reduce((prev, curr)=> prev + (curr.quantity * curr?.productId?.selling), 0)
+  const totalQty = data.reduce(
+    (previousValue, currentValue) => previousValue + currentValue.quantity,
+    0
+  );
+  const totalPrice = data.reduce(
+    (prev, curr) => prev + curr.quantity * curr?.productId?.selling,
+    0
+  );
   return (
-<div className="container mx-auto px-4 py-6 min-h-screen">
+    <div className="container mx-auto px-4 py-6 min-h-screen">
       <div className="text-center text-lg my-3">
         {data.length === 0 && !loading && (
           <p className="py-5 text-xl text-gray-500 ">No Product Selected</p>
@@ -118,7 +126,7 @@ const CartProducts = () => {
             loadingCart.map((el, index) => {
               return (
                 <div
-                  key={el + "Add to cart Loading"+ index}
+                  key={el + "Add to cart Loading" + index}
                   className="w-full bg-slate-200 h-32 my-2 border border-slate-300 animate-pulse rounded"
                 ></div>
               );
@@ -129,7 +137,6 @@ const CartProducts = () => {
                 return (
                   <div
                     key={product?._id + "Add to cart Loading" || index}
-
                     className="w-full bg-white shadow-md rounded-xl p-3 mb-4 flex gap-4 items-center"
                   >
                     <div className="w-32 h-32 bg-slate-200">
@@ -154,8 +161,10 @@ const CartProducts = () => {
                       <p className="capitalize text-slate-500 text-sm">
                         {product?.productId?.category}
                       </p>
-                        <p className="text-red-600 text-lg font-medium">
-                        {displayCurrency(product?.productId?.selling * product?.quantity)}
+                      <p className="text-red-600 text-lg font-medium">
+                        {displayCurrency(
+                          product?.productId?.selling * product?.quantity
+                        )}
                       </p>
                       <div className="flex items-center gap-3 mt-2">
                         <button
@@ -189,33 +198,36 @@ const CartProducts = () => {
         {/** summary */}
         <div className="lg:mt-4 w-full lg:max-w-xs lg:fixed lg:right-9 ">
           {loading ? (
-            <div className="h-36 bg-slate-200 border border-slate-300 animate-pulse ">
-            </div>
+            <div className="h-36 bg-slate-200 border border-slate-300 animate-pulse "></div>
           ) : (
             <div className="h-36 bg-white mb-4">
-                <h2 className="text-white bg-red-600 px-4 py-1">Summary </h2>
-                <div className="flex justify-between items-center px-4 gap-2 font-medium text-lg text-slate-600 ">
-                  <p>Quantity</p>
-                  <p>{totalQty}</p>
-                </div>
-                <div className="flex justify-between items-center px-4 gap-2 font-medium text-lg text-slate-600 ">
-                  <h2>Total Price</h2>
-                  <p>{displayCurrency(totalPrice)}</p>
-                </div>
-                <button onClick={()=>setorderFormPage(true)} className="bg-green-500 hover:bg-green-600 font-serif text-gray-800 p-2 w-full">
-                     Proceed to Checkout
-                </button>
+              <h2 className="text-white bg-red-600 px-4 py-1">Summary </h2>
+              <div className="flex justify-between items-center px-4 gap-2 font-medium text-lg text-slate-600 ">
+                <p>Quantity</p>
+                <p>{totalQty}</p>
               </div>
+              <div className="flex justify-between items-center px-4 gap-2 font-medium text-lg text-slate-600 ">
+                <h2>Total Price</h2>
+                <p>{displayCurrency(totalPrice)}</p>
+              </div>
+              <button
+                onClick={() => setorderFormPage(true)}
+                className="bg-green-500 hover:bg-green-600 font-serif text-gray-800 p-2 w-full"
+              >
+                Proceed to Checkout
+              </button>
+            </div>
           )}
         </div>
       </div>
 
       <div>
-       {
-        orderFormPage && (
-           <PlaceOrder close={()=>setorderFormPage(false)} totalCartAmount={displayCurrency(totalPrice)} />
-        )
-       }
+        {orderFormPage && (
+          <PlaceOrder
+            close={() => setorderFormPage(false)}
+            totalCartAmount={displayCurrency(totalPrice)}
+          />
+        )}
       </div>
     </div>
   );

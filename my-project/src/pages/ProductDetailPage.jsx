@@ -123,7 +123,7 @@ const ProductDetailPage = () => {
               ? loadingImageList.map((_, index) => (
                   <div
                     key={index}
-                    className="w-20 h-20 bg-gray-200 animate-pulse rounded-md shrink-0"
+                    className="w-20 h-20 bg-gray-200 animate-pulse border-none rounded-md shrink-0"
                   ></div>
                 ))
               : data.productImage.map((img, index) => (
