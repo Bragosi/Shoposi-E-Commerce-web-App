@@ -46,7 +46,7 @@ const [selectedOrder, setSelectedOrder] = useState(null);
         "content-type": "application/json",
       },
       body: JSON.stringify({
-        _id: id,
+        _id : id,
       }),
     });
     const dataResponse = await response.json();
@@ -85,7 +85,7 @@ const [selectedOrder, setSelectedOrder] = useState(null);
                 <h3 className="text-lg font-semibold text-gray-700 mb-2 capitalize">
                   <span className="text-red-700 capitalize">{order.name}</span>{" "}
                   placed an order
-                </h3>
+                </h3>../
                 <p className="text-gray-700">
                   <span className="font-medium">Phone:</span>{" "}
                   {order.phoneNumber}
@@ -125,7 +125,7 @@ const [selectedOrder, setSelectedOrder] = useState(null);
                 </button>
 
                 <button
-                 onClick={() => DeleteOrder(order._id)}
+               onClick={() => DeleteOrder(order?._id)}
                   className="text-red-600 hover:text-red-800"
                 >
                   <MdDelete size={20} />

@@ -15,24 +15,24 @@ const CartProducts = () => {
   const [orderFormPage, setorderFormPage] = useState(false);
 
   const fetchCartProduct = async () => {
-    setloading(true);  
+    setloading(true)
     try {
-      const response = await fetch(summaryApi.viewCartProducts.url, {
-        method: summaryApi.viewCartProducts.method,
-        credentials: "include",
-        headers: {
-          "content-type": "application/json",
-        },
-      });
+          const response = await fetch(summaryApi.viewCartProducts.url, {
+      method: summaryApi.viewCartProducts.method,
+      credentials: "include",
+      headers: {
+        "content-type": "application/json",
+      },
+    });
 
-      const dataResponse = await response.json();
-      if (dataResponse.success) {
-        setdata(dataResponse.data);
-      }
+    const dataResponse = await response.json();
+    if (dataResponse.success) {
+      setdata(dataResponse.data);
+    }
     } catch (error) {
-      console.log("error", error);
-    } finally {
-      setloading(false);
+      console.log('error', error)
+    }finally{
+      setloading(false)
     }
   };
 
