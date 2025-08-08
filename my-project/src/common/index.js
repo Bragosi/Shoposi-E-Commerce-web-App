@@ -88,6 +88,10 @@ const summaryApi = {
     url: `${backendDomain}/api/deleteOrder`,
     method: "post",
   },
+  countPending: {
+    url: `${backendDomain}/api/countPendingOrders`,
+    method: "get",
+  },
 };
 
 export default summaryApi;

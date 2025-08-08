@@ -28,7 +28,7 @@ const updateOrderStatus = async (req, res) => {
 
     res.json({
       data: updatedOrder,
-      message: "Order status updated",
+      message: "Order status updated successfully",
       success: true,
       error: false,
     });

@@ -13,7 +13,7 @@ const OrderedProduct = () => {
         <p><strong>Name:</strong> {order.name}</p>
         <p><strong>Phone:</strong> {order.phoneNumber}</p>
         <p><strong>City:</strong> {order.city}</p>
-        <p><strong>Total:</strong>{order.totalAmount}</p>
+        <p><strong>Total:</strong> ₦{order.totalAmount}</p>
         <p><strong>Status:</strong> {order.status}</p>
       </div>
 

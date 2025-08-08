@@ -24,6 +24,7 @@ const placeOrderController = require('../controller/products/PlaceOrderControlle
 const getPlacedOrder = require('../controller/products/GetPlacedOrder');
 const updateOrderStatus = require('../controller/products/UpdateOrderStatus');
 const DeleteOrder = require('../controller/products/DeleteOrder');
+const countPendingOrders = require('../controller/products/CountPendingOrders');
 
 router.post('/signUp', userSignUp)
 router.post('/login', UserSignIn )
@@ -58,4 +59,5 @@ router.post("/placeOrder", authToken, placeOrderController)
 router.get("/allOrders", authToken, getPlacedOrder)
 router.post("/orderStatus", authToken, updateOrderStatus)
 router.post("/deleteOrder", authToken, DeleteOrder)
+router.get("/countPendingOrders", authToken, countPendingOrders)
 module.exports = router;      

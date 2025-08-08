@@ -55,11 +55,11 @@ const ChangeUserRole = ({
           Change User Role
         </h2>
 
-        <div className="mb-2">
+<div className="mb-2">
           <p className="text-sm text-gray-700">
             <span className="font-medium">Name:</span>
             {name}
-          </p>
+          </p>        
           <p className="text-sm text-gray-700">
             <span className="font-medium">Email:</span>
             {email}
