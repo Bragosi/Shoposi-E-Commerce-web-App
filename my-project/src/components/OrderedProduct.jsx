@@ -3,8 +3,6 @@ import HorizontalProductList from "../components/reuse";
 import ConfirmOrderCompletion from "../components/ConfirmOrderCompletion";
 import DeleteComfirmation from "../components/DeleteComfirmation";
 import { useState } from "react";
-import summaryApi from "../common";
-import { toast } from "react-toastify";
 
 const OrderedProduct = () => {
   const [comfrimCompletion, setcomfrimCompletion] = useState(false);
@@ -15,24 +13,6 @@ const OrderedProduct = () => {
   const order = location.state?.order;
 
   if (!order) return <p>No order found.</p>;
-
-  const DeleteOrder = async (id) => {
-    const response = await fetch(summaryApi.deleteOrder.url, {
-      method: summaryApi.deleteOrder.method,
-      headers: {
-        "content-type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        _id: id,
-      }),
-    });
-    const dataResponse = await response.json();
-    if (dataResponse.success) {
-      toast.success(dataResponse.message);
-      setdeleteconfirm(false);
-    }
-  };
 
   return (
     <div className="min-h-screen px-6 py-8">
@@ -95,7 +75,7 @@ const OrderedProduct = () => {
       <div>
         {deleteconfirm && (
           <DeleteComfirmation
-            delete={() => DeleteOrder(selectedOrder?._id)}
+          order={selectedOrder}
             close={() => setdeleteconfirm(false)}
             reFetchData={() => navigate("/adminpanel/orders")}
           />

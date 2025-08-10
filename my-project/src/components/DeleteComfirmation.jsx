@@ -1,6 +1,8 @@
 import { useState } from "react";
 import summaryApi from "../common";
 import { toast } from "react-toastify";
+import { ClipLoader } from "react-spinners";
+
 
 const DeleteComfirmation = ({ reFetchData, order, close }) => {
   const [loading, setloading] = useState(false);
@@ -22,6 +24,7 @@ const DeleteComfirmation = ({ reFetchData, order, close }) => {
       if (dataResponse.success) {
         toast.success(dataResponse.message);
         reFetchData();
+        close()
       }
     } catch (error) {
       console.log("error", error);

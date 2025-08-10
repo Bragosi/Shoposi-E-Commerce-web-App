@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { toast } from "react-toastify";
 import ConfirmOrderCompletion from "../components/ConfirmOrderCompletion";
 import DeleteComfirmation from "../components/DeleteComfirmation";
 
@@ -133,7 +132,7 @@ const [selectedOrder, setSelectedOrder] = useState(null);
       </div>
       <div>
       {deleteconfirm && (
-        <DeleteComfirmation order={(selectedOrder)} close={()=>setdeleteconfirm(false)} />
+        <DeleteComfirmation order={(selectedOrder)} close={()=>setdeleteconfirm(false)} reFetchData={fetchOrders} />
       )}
       </div>
     </div>
