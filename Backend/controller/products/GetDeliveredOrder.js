@@ -1,12 +1,12 @@
 const OrderModel = require("../../models/OrderModel");
 
-const countPendingOrders = async (req, res) => {
+const GetDeliveredOrder = async (req, res) => {
   try {
-    const count = await OrderModel.countDocuments({ status: "pending" });
+    const deliverdOrder = await OrderModel.find({ status: "DELIVERED" });
 
     res.json({
-       data : count,
-      message: "Pending orders counted successfully",
+      data: deliverdOrder,
+      message: "Delivered Order Fetched",
       error: false,
       success: true,
     });
@@ -19,4 +19,4 @@ const countPendingOrders = async (req, res) => {
   }
 };
 
-module.exports = countPendingOrders;
+module.exports = GetDeliveredOrder;

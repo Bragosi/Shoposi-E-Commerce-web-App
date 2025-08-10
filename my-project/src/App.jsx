@@ -26,6 +26,7 @@ import OrderedProduct from "./components/OrderedProduct";
 export default function App() {
   const dispatch = useDispatch();
   const [cartProductCount, setcartProductCount] = useState();
+  const [countPendingOrders, setcountPendingOrders] = useState()
 
   const fetchUserDetails = async () => {
     try {
@@ -60,10 +61,22 @@ export default function App() {
     setcartProductCount(dataResponse?.data?.Count);
   };
 
+  const fetchPendingOrders = async()=>{
+    const response = await fetch(summaryApi.countPending.url,{
+      method : summaryApi.countPending.method,
+      credentials : 'include'
+    })
+    const dataResponse = await response.json()
+    console.log('count', dataResponse)
+    setcountPendingOrders(dataResponse?.data?.count)
+
+  }
+
   useEffect(() => {
     /** user details */
     fetchUserDetails();
     fetchCountCartProduct();
+    fetchPendingOrders();
   }, []);
 
   return (
@@ -73,6 +86,7 @@ export default function App() {
           fetchUserDetails, // User details fetched
           cartProductCount, // Current User Add to count
           fetchCountCartProduct,
+          countPendingOrders,
         }}
       >
         <ToastContainer position="top-center" />

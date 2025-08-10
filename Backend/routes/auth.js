@@ -58,6 +58,6 @@ router.post("/deleteCartProduct", authToken, DeleteCartProduct)
 router.post("/placeOrder", authToken, placeOrderController)
 router.get("/allOrders", authToken, getPlacedOrder)
 router.post("/orderStatus", authToken, updateOrderStatus)
-router.post("/deleteOrder", authToken, DeleteOrder)
+router.delete("/deleteOrder", authToken, DeleteOrder)
 router.get("/countPendingOrders", authToken, countPendingOrders)
 module.exports = router;      

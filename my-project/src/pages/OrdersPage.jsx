@@ -6,10 +6,12 @@ import { FaCheckCircle } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { toast } from "react-toastify";
 import ConfirmOrderCompletion from "../components/ConfirmOrderCompletion";
+import DeleteComfirmation from "../components/DeleteComfirmation";
 
 const OrdersPage = () => {
   const [loading, setLoading] = useState(false);
   const [orders, setOrders] = useState([]);
+  const [deleteconfirm, setdeleteconfirm] = useState(false)
   const [comfrimCompletion, setcomfrimCompletion] = useState(false);
 const [selectedOrder, setSelectedOrder] = useState(null);
 
@@ -39,22 +41,6 @@ const [selectedOrder, setSelectedOrder] = useState(null);
     fetchOrders();
   }, []);
 
-  const DeleteOrder = async (id) => {
-    const response = await fetch(summaryApi.deleteOrder.url, {
-      method: summaryApi.deleteOrder.method,
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        _id : id,
-      }),
-    });
-    const dataResponse = await response.json();
-    if (dataResponse.success) {
-      toast.success(dataResponse.message);
-      fetchOrders();
-    }
-  };
 
   return (
     <div className="min-h-screen px-6 py-8">
@@ -125,7 +111,7 @@ const [selectedOrder, setSelectedOrder] = useState(null);
                 </button>
 
                 <button
-               onClick={() => DeleteOrder(order?._id)}
+               onClick={()=>{setdeleteconfirm(true); setSelectedOrder(order)}}
                   className="text-red-600 hover:text-red-800"
                 >
                   <MdDelete size={20} />
@@ -144,7 +130,11 @@ const [selectedOrder, setSelectedOrder] = useState(null);
             reFetchData={fetchOrders}
           />
         )}
-
+      </div>
+      <div>
+      {deleteconfirm && (
+        <DeleteComfirmation order={(selectedOrder)} close={()=>setdeleteconfirm(false)} />
+      )}
       </div>
     </div>
   );

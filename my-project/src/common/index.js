@@ -86,7 +86,7 @@ const summaryApi = {
   },
   deleteOrder: {
     url: `${backendDomain}/api/deleteOrder`,
-    method: "post",
+    method: "delete",
   },
   countPending: {
     url: `${backendDomain}/api/countPendingOrders`,
