@@ -12,43 +12,55 @@ const OrderedProduct = () => {
   const navigate = useNavigate();
   const order = location.state?.order;
 
-  if (!order) return <p>No order found.</p>;
+  if (!order) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-gray-500 text-lg">No order found.</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen px-6 py-8">
-      <h2 className="text-2xl font-bold mb-6 text-indigo-700">Order Details</h2>
+    <div className="min-h-screen px-6 py-8 bg-gray-50">
+      {/* Title */}
+      <h2 className="text-3xl font-bold mb-8 text-indigo-700 tracking-wide">
+        Order Details
+      </h2>
 
-      <div className="mb-4 text-gray-700">
-        <p>
-          <strong>Name:</strong> {order.name}
-        </p>
-        <p>
-          <strong>Phone:</strong> {order.phoneNumber}
-        </p>
-        <p>
-          <strong>City:</strong> {order.city}
-        </p>
-        <p>
-          <strong>Total:</strong> ₦{order.totalAmount}
-        </p>
-        <p>
-          <strong>Status:</strong> {order.status}
-        </p>
+      {/* Order Details Card */}
+      <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+        <div className="grid md:grid-cols-2 gap-y-3 gap-x-8 text-gray-700">
+          <p><strong className="text-gray-900">Name:</strong> {order.name}</p>
+          <p><strong className="text-gray-900">Phone:</strong> {order.phoneNumber}</p>
+          <p><strong className="text-gray-900">City:</strong> {order.city}</p>
+          <p><strong className="text-gray-900">Total:</strong> {order.totalAmount}</p>
+          <p><strong className="text-gray-900">Status:</strong> 
+            <span className={`ml-2 px-2 py-1 text-sm rounded-full ${
+              order.status === "PENDING" 
+              ? "bg-yellow-100 text-yellow-700"
+              : "bg-green-100 text-green-700"
+            }`}>
+              {order.status}
+            </span>
+          </p>
+        </div>
       </div>
 
+      {/* Ordered Items List */}
       <HorizontalProductList
         title="Ordered Items"
         products={order.orderedItems}
         showAddToCart={false}
       />
 
-      <div className="mt-6 flex gap-4">
+      {/* Action Buttons */}
+      <div className="mt-8 flex flex-wrap gap-4">
         <button
           onClick={() => {
             setdeleteconfirm(true);
             setSelectedOrder(order);
           }}
-          className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded"
+          className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg shadow-sm transition"
         >
           Delete Order
         </button>
@@ -58,29 +70,28 @@ const OrderedProduct = () => {
             setcomfrimCompletion(true);
             setSelectedOrder(order);
           }}
-          className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded"
+          className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg shadow-sm transition"
         >
-          <p>Change Order Status</p>
+          Change Order Status
         </button>
       </div>
-      <div>
-        {comfrimCompletion && (
-          <ConfirmOrderCompletion
-            close={() => setcomfrimCompletion(false)}
-            order={selectedOrder}
-            reFetchData={() => navigate("/adminpanel/orders")}
-          />
-        )}
-      </div>
-      <div>
-        {deleteconfirm && (
-          <DeleteComfirmation
+
+      {/* Modals */}
+      {comfrimCompletion && (
+        <ConfirmOrderCompletion
+          close={() => setcomfrimCompletion(false)}
           order={selectedOrder}
-            close={() => setdeleteconfirm(false)}
-            reFetchData={() => navigate("/adminpanel/orders")}
-          />
-        )}
-      </div>
+          reFetchData={() => navigate("/adminpanel/orders")}
+        />
+      )}
+
+      {deleteconfirm && (
+        <DeleteComfirmation
+          order={selectedOrder}
+          close={() => setdeleteconfirm(false)}
+          reFetchData={() => navigate("/adminpanel/orders")}
+        />
+      )}
     </div>
   );
 };

@@ -209,9 +209,12 @@ const Header = () => {
                 <Link
                   to="/adminPanel/orders"
                   onClick={() => setOpenNavigation(false)}
-                  className="text-sm text-gray-600 hover:text-red-600"
+                  className="relative text-sm text-gray-600 hover:text-red-600"
                 >
                   Orders
+              <div className="absolute w-6 h-6 flex items-center justify-center rounded-full top-0 right-0 bg-red-500 text-white">
+              {context.countPendingOrders}
+            </div>
                 </Link>
               )}
 

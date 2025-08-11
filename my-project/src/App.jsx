@@ -26,7 +26,7 @@ import OrderedProduct from "./components/OrderedProduct";
 export default function App() {
   const dispatch = useDispatch();
   const [cartProductCount, setcartProductCount] = useState();
-  const [countPendingOrders, setcountPendingOrders] = useState()
+  const [countPendingOrders, setcountPendingOrders] = useState();
 
   const fetchUserDetails = async () => {
     try {
@@ -61,22 +61,25 @@ export default function App() {
     setcartProductCount(dataResponse?.data?.Count);
   };
 
-  const fetchPendingOrders = async()=>{
-    const response = await fetch(summaryApi.countPending.url,{
-      method : summaryApi.countPending.method,
-      credentials : 'include'
-    })
-    const dataResponse = await response.json()
-    console.log('count', dataResponse)
-    setcountPendingOrders(dataResponse?.data?.count)
-
-  }
+  const fetchPendingOrders = async () => {
+    const response = await fetch(summaryApi.countPending.url, {
+      method: summaryApi.countPending.method,
+      credentials: "include",
+    });
+    const dataResponse = await response.json();
+    setcountPendingOrders(dataResponse?.data);
+  };
 
   useEffect(() => {
     /** user details */
     fetchUserDetails();
     fetchCountCartProduct();
     fetchPendingOrders();
+
+    const interval = setInterval(() => {
+      fetchPendingOrders();
+    }, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -87,6 +90,7 @@ export default function App() {
           cartProductCount, // Current User Add to count
           fetchCountCartProduct,
           countPendingOrders,
+          fetchPendingOrders,
         }}
       >
         <ToastContainer position="top-center" />

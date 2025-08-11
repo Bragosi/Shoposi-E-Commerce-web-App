@@ -26,7 +26,7 @@ app.use('/api', authRoutes)
 const PORT = process.env.PORT || 8080; 
 
 connectDB().then(() => {
-  app.listen(PORT, () => {
+  app.listen(PORT, '0000', () => {
     console.log(` Server running on http://localhost:${PORT}`);
   });
 });

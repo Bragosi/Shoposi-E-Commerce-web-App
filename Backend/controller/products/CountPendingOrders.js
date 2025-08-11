@@ -2,11 +2,11 @@ const OrderModel = require("../../models/OrderModel");
 
 const countPendingOrders = async (req, res) => {
   try {
-    const count = await OrderModel.countDocuments({ status: "pending" });
+    const count = await OrderModel.countDocuments({ status: "PENDING" });
 
     res.json({
        data : count,
-      message: "Pending orders counted successfully",
+      message: "Pending orders counted",
       error: false,
       success: true,
     });

@@ -4,12 +4,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 import { useEffect } from "react";
 import ROLE from "../common/role";
-import { GoSidebarCollapse } from "react-icons/go";
+import { useContext } from "react";
+import Context from "../context/index.js";
 
 
 const AdminPanel = () => {
+  const context = useContext(Context);
   const navigate = useNavigate()
   const user = useSelector((state) => state?.user?.user);
+
+
   useEffect(()=>{
     if (user?.role !==ROLE.ADMIN) {
       navigate("/")
@@ -45,8 +49,11 @@ const AdminPanel = () => {
           <Link to="products" className="px-2 py-1 hover:bg-gray-500">
             Products
           </Link>
-          <Link to="orders" className="px-2 py-1 hover:bg-gray-500">
+          <Link to="orders" className="relative px-2 py-1 hover:bg-gray-500">
             Orders
+            <div className="absolute w-6 h-6 flex items-center justify-center rounded-full top-0 right-0 bg-red-500 text-white">
+              {context.countPendingOrders}
+            </div>
           </Link>
         </nav>
       </aside>
