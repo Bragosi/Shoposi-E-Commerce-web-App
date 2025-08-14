@@ -2,7 +2,7 @@ const express = require('express');
 const router  = express.Router();
 
 const userSignUp = require("../controller/user/UserSignUp");
-const UserSignIn = require("../controller/user/userSignIn");
+const userSignIn = require("../controller/user/UserSignin");
 const userDetails = require('../controller/user/UserDetails');
 const authToken = require('../middleWare/authToken');
 const userLogOut = require('../controller/user/UserLogOut');
@@ -27,7 +27,7 @@ const DeleteOrder = require('../controller/products/DeleteOrder');
 const countPendingOrders = require('../controller/products/CountPendingOrders');
 
 router.post('/signUp', userSignUp)
-router.post('/login', UserSignIn )
+router.post('/login', userSignIn )
 router.get('/userDetails', authToken, userDetails);
 router.get('/userLogOut', userLogOut)
 
