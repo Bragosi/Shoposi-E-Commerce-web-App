@@ -5,12 +5,13 @@ import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import Context from "../context";
+import Context from "../context/index.js";
 
 const PlaceOrder = ({ close, totalCartAmount }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const { fetchCountCartProduct, fetchPendingOrders } = useContext(Context);
+  const { fetchCountCartProduct} = useContext(Context);
+  const { fetchPendingOrders } = useContext(Context);
   const [formData, setFormData] = useState({
     name: "",
     city: "",

@@ -179,10 +179,10 @@ const ProductDetailPage = () => {
               {/* Prices */}
               <div className="flex gap-3 items-center">
                 <p className="text-xl line-through font-semibold text-gray-500">
-                  {displayCurrency(data.selling)}
+                  {displayCurrency(data.price)}
                 </p>
                 <p className="text-2xl font-bold text-green-600">
-                  {displayCurrency(data.price)}
+                  {displayCurrency(data.selling)}
                 </p>
               </div>
 

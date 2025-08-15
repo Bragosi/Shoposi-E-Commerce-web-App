@@ -3,10 +3,13 @@ import OrderStatus from "../common/orderStatus";
 import summaryApi from "../common";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
+import { useContext } from "react";
+import Context from "../context/index.js";
 
 const ConfirmOrderCompletion = ({ close, order, reFetchData }) => {
   const [loading, setloading] = useState(false);
   const [orderstatus, setorderstatus] = useState(order.status);
+  const { fetchPendingOrders } = useContext(Context);
 
   const handleRoleChange = async (e) => {
     setorderstatus(e.target.value);
@@ -31,6 +34,7 @@ const ConfirmOrderCompletion = ({ close, order, reFetchData }) => {
         toast.success(dataResponse.message);
         close();
         reFetchData();
+        fetchPendingOrders();
       }
       if (!dataResponse.success) {
         toast.error(dataResponse.message || "Failed to update order status");

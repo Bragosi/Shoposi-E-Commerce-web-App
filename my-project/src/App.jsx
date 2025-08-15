@@ -26,7 +26,7 @@ import OrderedProduct from "./components/OrderedProduct";
 export default function App() {
   const dispatch = useDispatch();
   const [cartProductCount, setcartProductCount] = useState();
-  const [countPendingOrders, setcountPendingOrders] = useState();
+  const [countPendingOrders, setcountPendingOrders] = useState(0);
 
 const fetchUserDetails = async () => {
   try {

@@ -2,11 +2,12 @@ import { useState } from "react";
 import summaryApi from "../common";
 import { toast } from "react-toastify";
 import { ClipLoader } from "react-spinners";
-
+import { useContext } from "react";
+import Context from "../context/index.js";
 
 const DeleteComfirmation = ({ reFetchData, order, close }) => {
   const [loading, setloading] = useState(false);
-
+  const { fetchPendingOrders } = useContext(Context);
   const DeleteOrder = async (id) => {
     setloading(true);
     try {
@@ -25,6 +26,7 @@ const DeleteComfirmation = ({ reFetchData, order, close }) => {
         toast.success(dataResponse.message);
         reFetchData();
         close()
+        fetchPendingOrders();
       }
     } catch (error) {
       console.log("error", error);
