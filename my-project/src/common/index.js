@@ -1,4 +1,4 @@
-const backendDomain = "http://localhost:8080";
+const backendDomain = "https://shoposi-e-commerce-web-app-8.onrender.com";
 const summaryApi = {
   signUp: {
     url: `${backendDomain}/api/signUp`,
