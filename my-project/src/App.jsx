@@ -28,29 +28,41 @@ export default function App() {
   const [cartProductCount, setcartProductCount] = useState();
   const [countPendingOrders, setcountPendingOrders] = useState();
 
-  const fetchUserDetails = async () => {
-    try {
-      const response = await fetch(summaryApi.currentUser.url, {
-        method: summaryApi.currentUser.method,
-        credentials: "include",
-      });
+const fetchUserDetails = async () => {
+  try {
+    const response = await fetch(summaryApi.currentUser.url, {
+      method: summaryApi.currentUser.method,
+      credentials: "include",
+    });
 
-      const rawText = await response.text();
-      let dataApi;
-      try {
-        dataApi = JSON.parse(rawText);
-      } catch (err) {
-        console.error("Failed to parse JSON:", err);
-        return;
-      }
-
-      if (dataApi.success) {
-        dispatch(setUserDetails(dataApi.data));
-      }
-    } catch (error) {
-      console.error("Network error while fetching user details:", error);
+    if (!response.ok) {
+      console.error(`fetchUserDetails failed with status: ${response.status}`);
+      toast.error(`Failed to fetch user details: ${response.statusText}`);
+      return;
     }
-  };
+
+    const rawText = await response.text();
+    let dataApi;
+    try {
+      dataApi = JSON.parse(rawText);
+    } catch (err) {
+      console.error("Failed to parse JSON:", err);
+      toast.error("Invalid response from server");
+      return;
+    }
+
+    if (dataApi.success) {
+      dispatch(setUserDetails(dataApi.data));
+      console.log("User details set:", dataApi.data);
+    } else {
+      console.error("fetchUserDetails failed:", dataApi.message);
+      toast.error(dataApi.message);
+    }
+  } catch (error) {
+    console.error("Network error while fetching user details:", error);
+    toast.error("Network error. Please try again.");
+  }
+};
 
   const fetchCountCartProduct = async () => {
     const response = await fetch(summaryApi.countCartProducts.url, {

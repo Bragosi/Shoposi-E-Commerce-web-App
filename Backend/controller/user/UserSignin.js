@@ -44,7 +44,8 @@ async function userSignIn(req, res) {
     });
     const tokenOption = {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: process.env.NODE_ENV === "production", // true in prod
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax"
     };
 
     res.cookie("token", token, tokenOption).status(200).json({
