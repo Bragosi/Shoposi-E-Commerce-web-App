@@ -10,7 +10,7 @@ import Context from "../context";
 const PlaceOrder = ({ close, totalCartAmount }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const { fetchCountCartProduct } = useContext(Context);
+  const { fetchCountCartProduct, fetchPendingOrders } = useContext(Context);
   const [formData, setFormData] = useState({
     name: "",
     city: "",
@@ -48,6 +48,7 @@ const PlaceOrder = ({ close, totalCartAmount }) => {
         toast.success(dataResponse.message);
         navigate("/");
         fetchCountCartProduct();
+        fetchPendingOrders();
       } else if (dataResponse.error) {
         toast.error(dataResponse.message);
       }

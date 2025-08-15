@@ -43,9 +43,10 @@ async function userSignIn(req, res) {
       expiresIn: 60 * 60 * 8, // 8 h
     });
     const tokenOption = {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // true in prod
-      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax"
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+    path: "/",
     };
 
     res.cookie("token", token, tokenOption).status(200).json({
