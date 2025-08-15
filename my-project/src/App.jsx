@@ -87,11 +87,6 @@ const fetchUserDetails = async () => {
     fetchUserDetails();
     fetchCountCartProduct();
     fetchPendingOrders();
-
-    const interval = setInterval(() => {
-      fetchPendingOrders();
-    }, 1000);
-    return () => clearInterval(interval);
   }, []);
 
   return (
