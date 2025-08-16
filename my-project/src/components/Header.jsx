@@ -87,7 +87,7 @@ const handleSearch = (e) => {
         </Link>
 
         {/* Search Bar (Large Screens Only) */}
-<div className="hidden lg:flex items-center max-w-md w-full border rounded-full overflow-hidden bg-gray-100 pl-3 relative">
+      <div className="hidden lg:flex items-center max-w-md w-full border rounded-full overflow-hidden bg-gray-100 pl-3 relative">
       <input
         type="text"
         placeholder="Search products..."

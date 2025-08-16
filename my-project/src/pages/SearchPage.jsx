@@ -1,6 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { ClipLoader } from "react-spinners";
 import SearchResultCard from "../components/SearchResultCard";
 import summaryApi from "../common";
 
@@ -16,6 +15,7 @@ const SearchPage = () => {
   const [pagination, setPagination] = useState({ page: 1, limit, total: 0 });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const loadingList = new Array(8).fill(null);
 
   const fetchProduct = async () => {
     setLoading(true);
@@ -62,12 +62,25 @@ const SearchPage = () => {
       )}
 
       {loading && (
-        <div className="flex justify-center items-center py-10">
-          <ClipLoader size={30} color="#dc2626" />
-          <span className="ml-2 text-red-600 font-medium text-sm">
-            Loading Search Results...
-          </span>
-        </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {loadingList.map((_, index) => (
+                <div
+                  key={index}
+                  className="bg-white rounded-lg shadow-md animate-pulse"
+                >
+                  <div className="bg-slate-200 h-40 w-full rounded-t-lg" />
+                  <div className="p-4 flex flex-col gap-3">
+                    <div className="h-4 w-3/4 bg-slate-200 rounded-full" />
+                    <div className="h-3 w-1/2 bg-slate-200 rounded-full" />
+                    <div className="flex gap-2">
+                      <div className="h-3 w-1/2 bg-slate-200 rounded-full" />
+                      <div className="h-3 w-1/2 bg-slate-200 rounded-full" />
+                    </div>
+                    <div className="h-6 w-2/3 bg-slate-200 rounded-full" />
+                  </div>
+                </div>
+              ))}
+            </div>
       )}
 
       {!loading && data.length === 0 && !error && (
@@ -77,7 +90,7 @@ const SearchPage = () => {
       {!loading && data.length > 0 && (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            <SearchResultCard loading={false} data={data} />
+            <SearchResultCard data={data} />
           </div>
 
           {/* Pagination controls */}
