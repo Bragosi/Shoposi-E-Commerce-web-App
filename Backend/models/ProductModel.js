@@ -13,6 +13,14 @@ const ProductSchema = mongoose.Schema(
   { timestamps: true }
 );
 
+// Added a text index for full-text search
+ProductSchema.index({
+  productName: "text",
+  brandName: "text",
+  category: "text",
+  description: "text"
+});
+
 const productModel = mongoose.model('product', ProductSchema);
 
 module.exports = productModel;

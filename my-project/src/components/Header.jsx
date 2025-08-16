@@ -24,6 +24,8 @@ const Header = () => {
   const context = useContext(Context);
   const navigate = useNavigate();
   const [openNavigation, setOpenNavigation] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
+  const [error, setError] = useState("");
 
   const handleLogOut = async () => {
     const fetchData = await fetch(summaryApi.logOut.url, {
@@ -42,15 +44,26 @@ const Header = () => {
     }
   };
 
-  const handleSearch = (e) => {
-    const { value } = e.target;
-
-    if (value) {
-      navigate(`/searchPage?q=${value}`);
-    } else {
-      navigate("/searchpage");
+const handleSearch = (e) => {
+    if (e.type === "click" || e.key === "Enter") {
+      const trimmedInput = searchInput.trim();
+      if (!trimmedInput) {
+        setError("Please enter a search term");
+        return;
+      }
+      if (trimmedInput.length < 2) {
+        setError("Search term must be at least 2 characters");
+        return;
+      }
+      if (trimmedInput.length > 50) {
+        setError("Search term is too long (max 50 characters)");
+        return;
+      }
+      setError("");
+      navigate(`/searchPage?q=${encodeURIComponent(trimmedInput)}`);
     }
   };
+
   const toggleNavigation = () => {
     if (openNavigation) {
       setOpenNavigation(false);
@@ -74,17 +87,29 @@ const Header = () => {
         </Link>
 
         {/* Search Bar (Large Screens Only) */}
-        <div className="hidden lg:flex items-center max-w-md w-full border rounded-full overflow-hidden bg-gray-100 pl-3">
-          <input
-            onChange={handleSearch}
-            type="text"
-            placeholder="Search products..."
-            className="w-full bg-transparent outline-none text-sm py-2"
-          />
-          <button className="bg-red-600 px-4 py-2 text-white rounded-r-full">
-            <GrSearch className="text-black" />
-          </button>
-        </div>
+<div className="hidden lg:flex items-center max-w-md w-full border rounded-full overflow-hidden bg-gray-100 pl-3 relative">
+      <input
+        type="text"
+        placeholder="Search products..."
+        value={searchInput}
+        onChange={(e) => setSearchInput(e.target.value)}
+        onKeyDown={handleSearch}
+        className="w-full bg-transparent outline-none text-sm py-2"
+        aria-label="Search products"
+      />
+      <button
+        onClick={handleSearch}
+        className="bg-red-600 px-4 py-2 text-white rounded-r-full"
+        aria-label="Submit search"
+      >
+        <GrSearch className="text-black" />
+      </button>
+      {error && (
+        <p className="absolute top-full left-0 mt-1 text-red-600 text-xs">
+          {error}
+        </p>
+      )}
+    </div>
 
         {/* Icons & Login */}
         <div className="flex items-center gap-5 sm:gap-6 relative">

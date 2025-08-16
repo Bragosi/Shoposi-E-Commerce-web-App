@@ -34,7 +34,7 @@ const HorizontalCardProduct = ({ category, heading }) => {
 
   return (
     <div className="container mx-auto px-4 my-8 relative">
-      <h2 className="font-semibold text-2xl mb-4">{heading}</h2>
+      <h2 className="font-semibold text-xl lg:text-2xl mb-4">{heading}</h2>
 
       {loading ? (
         <div className="flex gap-4 overflow-x-auto scrollbar-none">
