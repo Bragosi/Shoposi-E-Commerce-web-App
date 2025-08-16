@@ -88,40 +88,41 @@ const SearchPage = () => {
         <p className="text-gray-600">No products found for "{searchTerm}"</p>
       )}
 
-      {!loading && data.length > 0 && (
-        <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            <SearchResultCard data={data} />
-          </div>
+{!loading && data.length > 0 && (
+  <>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      {data.map((product) => (
+        <SearchResultCard key={product._id} product={product} />
+      ))}
+    </div>
 
-          {/* Pagination controls */}
-          <div className="flex justify-center items-center gap-3 mt-6">
-            <button
-              disabled={page === 1}
-              onClick={() =>
-                navigate(`/searchPage?q=${encodeURIComponent(searchTerm)}&page=${page - 1}`)
-              }
-              className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50 disabled:cursor-not-allowed"
-              aria-label="Previous page"
-            >
-              Prev
-            </button>
-            <span className="text-sm">
-              Page {page} of {totalPages || 1}
-            </span>
-            <button
-              disabled={page >= totalPages}
-              onClick={() =>
-                navigate(`/searchPage?q=${encodeURIComponent(searchTerm)}&page=${page + 1}`)
-              }
-              className="px-4 py-2 bg-red-600 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed"
-              aria-label="Next page"
-            >
-              Next
-            </button>
-          </div>
-        </>
-      )}
+    {/* Pagination controls */}
+    <div className="flex justify-center items-center gap-3 mt-6">
+      <button
+        disabled={page === 1}
+        onClick={() =>
+          navigate(`/searchPage?q=${encodeURIComponent(searchTerm)}&page=${page - 1}`)
+        }
+        className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Prev
+      </button>
+      <span className="text-sm">
+        Page {page} of {totalPages || 1}
+      </span>
+      <button
+        disabled={page >= totalPages}
+        onClick={() =>
+          navigate(`/searchPage?q=${encodeURIComponent(searchTerm)}&page=${page + 1}`)
+        }
+        className="px-4 py-2 bg-red-600 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        Next
+      </button>
+    </div>
+  </>
+)}
+
     </div>
     </div>
   );
