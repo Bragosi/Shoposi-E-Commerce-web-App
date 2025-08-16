@@ -44,7 +44,7 @@ const Header = () => {
     }
   };
 
-const handleSearch = (e) => {
+  const handleSearch = (e) => {
     if (e.type === "click" || e.key === "Enter") {
       const trimmedInput = searchInput.trim();
       if (!trimmedInput) {
@@ -87,29 +87,29 @@ const handleSearch = (e) => {
         </Link>
 
         {/* Search Bar (Large Screens Only) */}
-      <div className="hidden lg:flex items-center max-w-md w-full border rounded-full overflow-hidden bg-gray-100 pl-3 relative">
-      <input
-        type="text"
-        placeholder="Search products..."
-        value={searchInput}
-        onChange={(e) => setSearchInput(e.target.value)}
-        onKeyDown={handleSearch}
-        className="w-full bg-transparent outline-none text-sm py-2"
-        aria-label="Search products"
-      />
-      <button
-        onClick={handleSearch}
-        className="bg-red-600 px-4 py-2 text-white rounded-r-full"
-        aria-label="Submit search"
-      >
-        <GrSearch className="text-black" />
-      </button>
-      {error && (
-        <p className="absolute top-full left-0 mt-1 text-red-600 text-xs">
-          {error}
-        </p>
-      )}
-    </div>
+        <div className="hidden lg:flex items-center max-w-md w-full border rounded-full overflow-hidden bg-gray-100 pl-3 relative">
+          <input
+            type="text"
+            placeholder="Search products..."
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            onKeyDown={handleSearch}
+            className="w-full bg-transparent outline-none text-sm py-2"
+            aria-label="Search products"
+          />
+          <button
+            onClick={handleSearch}
+            className="bg-red-600 px-4 py-2 text-white rounded-r-full"
+            aria-label="Submit search"
+          >
+            <GrSearch className="text-black" />
+          </button>
+          {error && (
+            <p className="absolute top-full left-0 mt-1 text-red-600 text-xs">
+              {error}
+            </p>
+          )}
+        </div>
 
         {/* Icons & Login */}
         <div className="flex items-center gap-5 sm:gap-6 relative">
@@ -185,10 +185,8 @@ const handleSearch = (e) => {
           >
             <MenuSvg openNavigation={openNavigation} />
           </div>
-
-          {/** items under menu */}
           {openNavigation && (
-            <div className="absolute right-4 top-16 w-56 bg-white rounded-lg shadow-lg p-4 flex flex-col gap-4 z-50">
+            <div className="absolute right-0 top-16 w-full sm:w-72 bg-white rounded-lg shadow-lg p-4 flex flex-col gap-4 z-50">
               {/* User avatar */}
               {user?._id && (
                 <div className="flex items-center gap-2">
@@ -207,41 +205,60 @@ const handleSearch = (e) => {
                 </div>
               )}
 
-              {/* Admin Panel Link */}
+              {/* Admin Links */}
               {user?.role === ROLE.ADMIN && (
-                <Link
-                  to="/adminPanel/products"
-                  onClick={() => setOpenNavigation(false)}
-                  className="text-sm text-gray-600 hover:text-red-600"
-                >
-                  Upload Products
-                </Link>
+                <>
+                  <Link
+                    to="/adminPanel/products"
+                    onClick={() => setOpenNavigation(false)}
+                    className="text-sm text-gray-600 hover:text-red-600"
+                  >
+                    Upload Products
+                  </Link>
+                  <Link
+                    to="/adminPanel/allUsers"
+                    onClick={() => setOpenNavigation(false)}
+                    className="text-sm text-gray-600 hover:text-red-600"
+                  >
+                    All Users
+                  </Link>
+                  <Link
+                    to="/adminPanel/orders"
+                    onClick={() => setOpenNavigation(false)}
+                    className="relative text-sm text-gray-600 hover:text-red-600"
+                  >
+                    Orders
+                    <div className="absolute w-6 h-6 flex items-center justify-center rounded-full top-0 right-0 bg-red-500 text-white">
+                      {context.countPendingOrders}
+                    </div>
+                  </Link>
+                </>
               )}
 
-              {/* All Users Link */}
-              {user?.role === ROLE.ADMIN && (
-                <Link
-                  to="/adminPanel/allUsers"
-                  onClick={() => setOpenNavigation(false)}
-                  className="text-sm text-gray-600 hover:text-red-600"
+              {/* 🔍 Responsive Search Bar */}
+              <div className="flex items-center w-full border rounded-full overflow-hidden bg-gray-100 pl-3 relative">
+                <input
+                  type="text"
+                  placeholder="Search products..."
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
+                  onKeyDown={handleSearch}
+                  className="w-full bg-transparent outline-none text-sm py-2"
+                  aria-label="Search products"
+                />
+                <button
+                  onClick={handleSearch}
+                  className="bg-red-600 px-4 py-2 text-white rounded-r-full flex items-center justify-center"
+                  aria-label="Submit search"
                 >
-                  All Users
-                </Link>
-              )}
-
-              {/** Orders Page */}
-                {user?.role === ROLE.ADMIN && (
-                <Link
-                  to="/adminPanel/orders"
-                  onClick={() => setOpenNavigation(false)}
-                  className="relative text-sm text-gray-600 hover:text-red-600"
-                >
-                  Orders
-              <div className="absolute w-6 h-6 flex items-center justify-center rounded-full top-0 right-0 bg-red-500 text-white">
-              {context.countPendingOrders}
-            </div>
-                </Link>
-              )}
+                  <GrSearch className="text-white" />
+                </button>
+                {error && (
+                  <p className="absolute top-full left-0 mt-1 text-red-600 text-xs">
+                    {error}
+                  </p>
+                )}
+              </div>
 
               {/* Auth Button */}
               {user?._id ? (
