@@ -52,6 +52,7 @@ const SearchPage = () => {
   const totalPages = Math.ceil(pagination.total / pagination.limit);
 
   return (
+    <div className="w-full min-h-screen">
     <div className="container mx-auto p-4 max-w-7xl">
       <h1 className="text-lg font-semibold my-3">
         Search Results for "{searchTerm}" ({pagination.total || 0})
@@ -121,6 +122,7 @@ const SearchPage = () => {
           </div>
         </>
       )}
+    </div>
     </div>
   );
 };
