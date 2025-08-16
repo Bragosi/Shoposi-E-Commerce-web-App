@@ -22,6 +22,7 @@ import CartProducts from "./pages/CartProducts";
 import SearchPage from "./pages/SearchPage";
 import OrdersPage from "./pages/OrdersPage";
 import OrderedProduct from "./components/OrderedProduct";
+import { toast } from "react-toastify";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -53,7 +54,6 @@ const fetchUserDetails = async () => {
 
     if (dataApi.success) {
       dispatch(setUserDetails(dataApi.data));
-      console.log("User details set:", dataApi.data);
     } else {
       console.error("fetchUserDetails failed:", dataApi.message);
       toast.error(dataApi.message);

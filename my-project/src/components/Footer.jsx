@@ -20,7 +20,7 @@ const Footer = () => {
           </Link>
 
           <Link
-            to="https://github.com/Bragosi/Movie-App"
+            to="https://github.com/Bragosi"
             className="hover:text-white transition-colors duration-200"
           >
             View Github

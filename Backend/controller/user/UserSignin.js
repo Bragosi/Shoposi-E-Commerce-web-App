@@ -42,11 +42,14 @@ async function userSignIn(req, res) {
     const token = jwt.sign(tokenData, process.env.TOKEN_SECRET_KEY, {
       expiresIn: 60 * 60 * 8, // 8 h
     });
+
+
     const tokenOption = {
     httpOnly: true,
     secure: true,
     sameSite: "None",
     path: "/",
+    maxAge : 7 * 24 * 60* 60 * 1000, 
     };
 
     res.cookie("token", token, tokenOption).status(200).json({
