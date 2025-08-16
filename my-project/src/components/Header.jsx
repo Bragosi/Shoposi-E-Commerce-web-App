@@ -186,7 +186,7 @@ const Header = () => {
             <MenuSvg openNavigation={openNavigation} />
           </div>
           {openNavigation && (
-            <div className="absolute right-0 top-16 w-full sm:w-72 bg-white rounded-lg shadow-lg p-4 flex flex-col gap-4 z-50">
+            <div className="absolute right-4 top-16 w-full sm:w-72 bg-white rounded-lg shadow-lg p-4 flex flex-col gap-4 z-50">
               {/* User avatar */}
               {user?._id && (
                 <div className="flex items-center gap-2">
