@@ -52,12 +52,10 @@ export default function App() {
       if (dataResponse.success) {
         dispatch(setUserDetails(dataResponse.data));
       } else {
-        console.error("fetchUserDetails failed:", dataResponse.message);
-        toast.error(dataResponse.message || "Unable to fetch user details.");
+        console.log("error", dataResponse.message);
       }
     } catch (error) {
-      console.error("Network error while fetching user details:", error);
-      toast.error("Network error. Please try again.");
+      console.log("error", error);
     }
   };
 
