@@ -28,33 +28,18 @@ const Header = () => {
   const [error, setError] = useState("");
 
   const handleLogOut = async () => {
-    try {
-      const response = await fetch(summaryApi.logOut.url, {
-        method: summaryApi.logOut.method,
-        credentials: "include", // ✅ ensures Safari sends cookies
-        headers: {
-          "Content-Type": "application/json",
-          "Cache-Control": "no-cache", // ✅ avoids Safari caching issue
-        },
-      });
-
-      if (!response.ok) {
-        toast.error("Logout failed");
-        return;
-      }
-
-      const data = await response.json();
-
-      if (data.success) {
-        toast.success(data.message);
-        dispatch(setUserDetails(null));
-        navigate("/");
-      } else {
-        toast.error(data.message || "Logout error");
-      }
-    } catch (err) {
-      console.error("Logout network error:", err);
-      toast.error("Network error. Please try again.");
+    const fetchData = await fetch(summaryApi.logOut.url, {
+      method: summaryApi.logOut.method,
+      credentials: "include",
+    });
+    const data = await fetchData.json();
+    if (data.success) {
+      toast.success(data.message);
+      dispatch(setUserDetails(null));
+      navigate("/");
+    }
+    if (data.error) {
+      toast.error(data.message);
     }
   };
 
