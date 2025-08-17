@@ -1,14 +1,20 @@
 async function userLogOut(req, res) {
-    try {
-        res.clearCookie("token")
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: true,      
+      sameSite: "None",   
+      path: "/",          
+      partitioned: true, 
+    });
 
-        res.json({
-            message : "Logout Succesful",
-            error : false,
-            success : true,
-            data : []
-        })
-    }catch (err) {
+    return res.json({
+      message: "Logout Successful",
+      error: false,
+      success: true,
+      data: [],
+    });
+  } catch (err) {
     console.error(err);
     return res.status(500).json({
       message: err.message || "Server error",
@@ -17,5 +23,3 @@ async function userLogOut(req, res) {
     });
   }
 }
-
-module.exports = userLogOut
