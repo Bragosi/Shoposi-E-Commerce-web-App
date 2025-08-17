@@ -32,27 +32,27 @@ async function UserSignIn(req, res) {
       });
     }
 
-    // ✅ Issue JWT
     const tokenData = { _id: user._id, email: user.email };
     const token = jwt.sign(tokenData, process.env.TOKEN_SECRET_KEY, {
       expiresIn: "7d", // 7 days
     });
 
-    // ✅ Safari-compatible cookie options
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
       sameSite: "None",
       path: "/",
       maxAge: 7 * 24 * 60 * 60 * 1000,
+      partitioned: true,
     });
+
 
     return res.status(200).json({
       message: "Login successful",
-      data:token,
       success: true,
       error: false,
     });
+
   } catch (err) {
     console.error(err);
     return res.status(500).json({
