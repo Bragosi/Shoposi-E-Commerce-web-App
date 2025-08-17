@@ -88,8 +88,8 @@ export default function App() {
     <>
       <Context.Provider
         value={{
-          fetchUserDetails, // User details fetched
-          cartProductCount, // Current User Add to count
+          fetchUserDetails,
+          cartProductCount, 
           fetchCountCartProduct,
           countPendingOrders,
           fetchPendingOrders,
