@@ -24,10 +24,11 @@ const getPlacedOrder = require('../controller/products/GetPlacedOrder');
 const updateOrderStatus = require('../controller/products/UpdateOrderStatus');
 const DeleteOrder = require('../controller/products/DeleteOrder');
 const countPendingOrders = require('../controller/products/CountPendingOrders');
-const userSignIn = require('../controller/user/UserSignIn');
+const UserSignIn = require('../controller/user/UserSignIn');
+
 
 router.post('/signUp', userSignUp)
-router.post('/login', userSignIn )
+router.post('/login', UserSignIn)
 router.get('/userDetails', authToken, userDetails);
 router.get('/userLogOut', userLogOut)
 
