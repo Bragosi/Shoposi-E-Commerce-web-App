@@ -22,40 +22,33 @@ import CartProducts from "./pages/CartProducts";
 import SearchPage from "./pages/SearchPage";
 import OrdersPage from "./pages/OrdersPage";
 import OrderedProduct from "./components/OrderedProduct";
-import { toast } from "react-toastify";
 
 export default function App() {
   const dispatch = useDispatch();
   const [cartProductCount, setcartProductCount] = useState();
-  const [countPendingOrders, setcountPendingOrders] = useState(0);
+  const [countPendingOrders, setcountPendingOrders] = useState();
 
   const fetchUserDetails = async () => {
     try {
       const response = await fetch(summaryApi.currentUser.url, {
         method: summaryApi.currentUser.method,
         credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-          "Cache-Control": "no-cache",
-        },
       });
 
-      // Explicit check for Safari quirks
-      if (!response || !response.ok) {
-        console.error("FetchUserDetails failed, status:", response?.status);
-        toast.error("Unable to fetch user details.");
+      const rawText = await response.text();
+      let dataApi;
+      try {
+        dataApi = JSON.parse(rawText);
+      } catch (err) {
+        console.error("Failed to parse JSON:", err);
         return;
       }
 
-      const dataResponse = await response.json();
-
-      if (dataResponse.success) {
-        dispatch(setUserDetails(dataResponse.data));
-      } else {
-        console.log("error", dataResponse.message);
+      if (dataApi.success) {
+        dispatch(setUserDetails(dataApi.data));
       }
     } catch (error) {
-      console.log("error", error);
+      console.error("Network error while fetching user details:", error);
     }
   };
 
@@ -82,14 +75,19 @@ export default function App() {
     fetchUserDetails();
     fetchCountCartProduct();
     fetchPendingOrders();
+
+    const interval = setInterval(() => {
+      fetchPendingOrders();
+    }, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
     <>
       <Context.Provider
         value={{
-          fetchUserDetails,
-          cartProductCount, 
+          fetchUserDetails, // User details fetched
+          cartProductCount, // Current User Add to count
           fetchCountCartProduct,
           countPendingOrders,
           fetchPendingOrders,
