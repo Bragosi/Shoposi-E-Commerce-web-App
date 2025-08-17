@@ -33,7 +33,7 @@ const LoginPage = () => {
         method: summaryApi.signIn.method,
         credentials: "include",
         headers: {
-          "content-type": "application/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
@@ -42,16 +42,14 @@ const LoginPage = () => {
 
       if (dataApi.error) {
         toast.error(dataApi.message);
-
-
       } else if (dataApi.success) {
         toast.success(dataApi.message);
         fetchUserDetails();
-        fetchCountCartProduct()
+        fetchCountCartProduct();
         navigate("/");
       }
     } catch (error) {
-      console.log('error',error)
+      console.log("error", error);
       toast.error("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
@@ -64,7 +62,7 @@ const LoginPage = () => {
         {/* Logo */}
         <div className="w-20 h-20 mx-auto mb-6">
           <img src={LoginIcon} alt="login icon" className="object-contain" />
-        </div> 
+        </div>
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5">

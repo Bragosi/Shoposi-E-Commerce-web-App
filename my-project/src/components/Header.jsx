@@ -28,19 +28,33 @@ const Header = () => {
   const [error, setError] = useState("");
 
   const handleLogOut = async () => {
-    const fetchData = await fetch(summaryApi.logOut.url, {
-      method: summaryApi.logOut.method,
-      credentials: "include",
-    });
-    const data = await fetchData.json();
+    try {
+      const response = await fetch(summaryApi.logOut.url, {
+        method: summaryApi.logOut.method,
+        credentials: "include", // ✅ ensures Safari sends cookies
+        headers: {
+          "Content-Type": "application/json",
+          "Cache-Control": "no-cache", // ✅ avoids Safari caching issue
+        },
+      });
 
-    if (data.success) {
-      toast.success(data.message);
-      dispatch(setUserDetails(null));
-      navigate("/");
-    }
-    if (data.error) {
-      toast.error(data.message);
+      if (!response.ok) {
+        toast.error("Logout failed");
+        return;
+      }
+
+      const data = await response.json();
+
+      if (data.success) {
+        toast.success(data.message);
+        dispatch(setUserDetails(null));
+        navigate("/");
+      } else {
+        toast.error(data.message || "Logout error");
+      }
+    } catch (err) {
+      console.error("Logout network error:", err);
+      toast.error("Network error. Please try again.");
     }
   };
 
@@ -188,7 +202,7 @@ const Header = () => {
 
           {/** small Devices */}
           {openNavigation && (
-           <div className="absolute right-4 top-16 w-56 bg-white rounded-lg shadow-lg p-4 flex flex-col gap-4 z-50">  
+            <div className="absolute right-4 top-16 w-56 bg-white rounded-lg shadow-lg p-4 flex flex-col gap-4 z-50">
               {/* User avatar */}
               {user?._id && (
                 <div className="flex items-center gap-2">

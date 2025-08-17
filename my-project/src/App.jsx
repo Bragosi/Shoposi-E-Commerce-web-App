@@ -29,40 +29,37 @@ export default function App() {
   const [cartProductCount, setcartProductCount] = useState();
   const [countPendingOrders, setcountPendingOrders] = useState(0);
 
-const fetchUserDetails = async () => {
-  try {
-    const response = await fetch(summaryApi.currentUser.url, {
-      method: summaryApi.currentUser.method,
-      credentials: "include",
-    });
-
-    if (!response.ok) {
-      console.error(`fetchUserDetails failed with status: ${response.status}`);
-      toast.error(`Failed to fetch user details: ${response.statusText}`);
-      return;
-    }
-
-    const rawText = await response.text();
-    let dataApi;
+  const fetchUserDetails = async () => {
     try {
-      dataApi = JSON.parse(rawText);
-    } catch (err) {
-      console.error("Failed to parse JSON:", err);
-      toast.error("Invalid response from server");
-      return;
-    }
+      const response = await fetch(summaryApi.currentUser.url, {
+        method: summaryApi.currentUser.method,
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          "Cache-Control": "no-cache",
+        },
+      });
 
-    if (dataApi.success) {
-      dispatch(setUserDetails(dataApi.data));
-    } else {
-      console.error("fetchUserDetails failed:", dataApi.message);
-      toast.error(dataApi.message);
+      // Explicit check for Safari quirks
+      if (!response || !response.ok) {
+        console.error("FetchUserDetails failed, status:", response?.status);
+        toast.error("Unable to fetch user details.");
+        return;
+      }
+
+      const dataResponse = await response.json();
+
+      if (dataResponse.success) {
+        dispatch(setUserDetails(dataResponse.data));
+      } else {
+        console.error("fetchUserDetails failed:", dataResponse.message);
+        toast.error(dataResponse.message || "Unable to fetch user details.");
+      }
+    } catch (error) {
+      console.error("Network error while fetching user details:", error);
+      toast.error("Network error. Please try again.");
     }
-  } catch (error) {
-    console.error("Network error while fetching user details:", error);
-    toast.error("Network error. Please try again.");
-  }
-};
+  };
 
   const fetchCountCartProduct = async () => {
     const response = await fetch(summaryApi.countCartProducts.url, {

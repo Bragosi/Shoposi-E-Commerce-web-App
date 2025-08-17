@@ -6,7 +6,6 @@ async function userSignIn(req, res) {
   try {
     const { email, password } = req.body;
 
-    // 1  Basic validation
     if (!email || !password) {
       return res.status(400).json({
         message: "Email and password are required",
@@ -15,7 +14,6 @@ async function userSignIn(req, res) {
       });
     }
 
-    // 2  Find user
     const user = await userModel.findOne({ email });
     if (!user) {
       return res.status(404).json({
@@ -25,11 +23,8 @@ async function userSignIn(req, res) {
       });
     }
 
-    // 3  Compare passwords
     const isMatch = await bcrypt.compare(password, user.password);
-
     if (!isMatch) {
-      // Wrong password
       return res.status(401).json({
         message: "Invalid email or password",
         success: false,
@@ -37,24 +32,23 @@ async function userSignIn(req, res) {
       });
     }
 
-    // Correct password → issue JWT & cookie
+    // ✅ Issue JWT
     const tokenData = { _id: user._id, email: user.email };
     const token = jwt.sign(tokenData, process.env.TOKEN_SECRET_KEY, {
-      expiresIn: 60 * 60 * 8, // 8 h
+      expiresIn: "7d", // 7 days
     });
 
+    // ✅ Safari-compatible cookie options
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+      path: "/",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
 
-    const tokenOption = {
-    httpOnly: true,
-    secure: true,
-    sameSite: "None",
-    path: "/",
-    maxAge : 7 * 24 * 60* 60 * 1000, 
-    };
-
-    res.cookie("token", token, tokenOption).status(200).json({
-      message: "Login successfully",
-      data: token,
+    return res.status(200).json({
+      message: "Login successful",
       success: true,
       error: false,
     });
