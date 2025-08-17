@@ -2,7 +2,6 @@ const express = require('express');
 const router  = express.Router();
 
 const userSignUp = require("../controller/user/UserSignUp");
-const userSignIn = require("../controller/user/UserSignIn");
 const userDetails = require('../controller/user/UserDetails');
 const authToken = require('../middleWare/authToken');
 const userLogOut = require('../controller/user/UserLogOut');
@@ -25,6 +24,7 @@ const getPlacedOrder = require('../controller/products/GetPlacedOrder');
 const updateOrderStatus = require('../controller/products/UpdateOrderStatus');
 const DeleteOrder = require('../controller/products/DeleteOrder');
 const countPendingOrders = require('../controller/products/CountPendingOrders');
+const userSignIn = require('../controller/user/UserSignIn');
 
 router.post('/signUp', userSignUp)
 router.post('/login', userSignIn )
