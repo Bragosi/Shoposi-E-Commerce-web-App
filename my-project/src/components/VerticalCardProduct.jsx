@@ -37,8 +37,7 @@ const VerticalCardProduct = ({ category, heading }) => {
       <h2 className="font-semibold lg:text-2xl text-xl mb-4">{heading}</h2>
 
       {loading ? (
-        <div className="flex gap-4 over
-        flow-x-auto scrollbar-none">
+        <div className="flex gap-4 overflow-x-auto scrollbar-none scroll-smooth">
           {loadingList.map((_, index) => (
             <div
               key={index}
