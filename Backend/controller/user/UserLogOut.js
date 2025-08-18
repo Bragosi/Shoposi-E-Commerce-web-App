@@ -2,9 +2,9 @@ async function userLogOut(req, res) {
   try {
     res.clearCookie("token", {
       httpOnly: true,
-      secure: true, // must match login
-      sameSite: "None", // only needed if frontend and backend are on different domains
-      path: "/", // must match login
+      secure: true,
+      sameSite: "None",
+      path: "/",
     });
 
     return res.json({
@@ -14,7 +14,7 @@ async function userLogOut(req, res) {
       data: [],
     });
   } catch (err) {
-    console.error(err);
+    console.error("LogOut Error:", err.message);
     return res.status(500).json({
       message: err.message || "Server error",
       success: false,

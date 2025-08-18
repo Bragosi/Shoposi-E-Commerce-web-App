@@ -10,16 +10,16 @@ const app = express();
 // CORS configuration
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "https://shoposi-e-commerce-web-app-vsjm.vercel.app",
+    origin: process.env.FRONTEND_URL,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "Cache-Control"], // Add Cache-Control
+    allowedHeaders: ["Content-Type", "Authorization", "Cache-Control"],
     credentials: true,
   })
 );
 
 // Handle preflight requests
 app.options("*", cors({
-  origin: process.env.FRONTEND_URL || "https://shoposi-e-commerce-web-app-vsjm.vercel.app",
+  origin: process.env.FRONTEND_URL,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "Cache-Control"],
   credentials: true,
