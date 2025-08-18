@@ -90,9 +90,6 @@ const CartProducts = () => {
             item._id === id ? { ...item, quantity: qty - 1 } : item
           )
         );
-        toast.success("Quantity updated");
-      } else {
-        toast.error(dataResponse.message || "Failed to update quantity");
       }
     } catch (error) {
       console.error("Decrease Qty Error:", error.message);
@@ -233,7 +230,7 @@ const CartProducts = () => {
               </div>
               <button
                 onClick={() => setorderFormPage(true)}
-                className="bg-green-500 hover:bg-green-600 font-serif text-gray-800 p-2 w-full mx-auto rounded-full"
+                className="bg-green-500 hover:bg-green-600 font-serif text-gray-800 p-3 w-fit mx-auto rounded-full"
               >
                 Proceed to Checkout
               </button>
