@@ -218,19 +218,24 @@ const CartProducts = () => {
           {loading ? (
             <div className="h-36 bg-slate-200 border border-slate-300 animate-pulse"></div>
           ) : (
-            <div className="h-36 bg-white mb-4">
-              <h2 className="text-white bg-red-600 px-4 py-1">Summary</h2>
-              <div className="flex justify-between items-center px-4 gap-2 font-medium text-lg text-slate-600">
-                <p>Quantity</p>
-                <p>{totalQty}</p>
+            <div className="bg-white rounded-lg shadow-md p-6 mb-6 w-full max-w-md mx-auto">
+              <h2 className="text-lg font-bold text-white bg-red-600 px-4 py-2 rounded-md mb-4 text-center">
+                Summary
+              </h2>
+
+              <div className="flex justify-between items-center mb-2 text-gray-700 font-medium text-base">
+                <span>Quantity</span>
+                <span>{totalQty}</span>
               </div>
-              <div className="flex justify-between items-center px-4 gap-2 font-medium text-lg text-slate-600">
-                <h2>Total Price</h2>
-                <p>{displayCurrency(totalPrice)}</p>
+
+              <div className="flex justify-between items-center mb-4 text-gray-700 font-medium text-base">
+                <span>Total Price</span>
+                <span>{displayCurrency(totalPrice)}</span>
               </div>
+
               <button
                 onClick={() => setorderFormPage(true)}
-                className="bg-green-500 hover:bg-green-600 font-serif text-gray-800 p-3 w-fit mx-auto rounded-full"
+                className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded-full w-full transition-colors duration-200"
               >
                 Proceed to Checkout
               </button>
