@@ -42,20 +42,19 @@ The app supports **user authentication, product browsing, cart management, and o
 ## 📸 Screenshots  
 
 ### 🏠 Homepage  
-![Homepage] ( ![Screenshot_19-8-2025_02820_shoposi-e-commerce-web-app-vsjm vercel app](https://github.com/user-attachments/assets/66b9afcb-6d73-4e6f-91fa-25279f12d234)
- )
+Homepage ![Screenshot_19-8-2025_02820_shoposi-e-commerce-web-app-vsjm vercel app](https://github.com/user-attachments/assets/66b9afcb-6d73-4e6f-91fa-25279f12d234)
+ 
 
 ### 🔍 Product Search  
-![Product Search](![Screenshot_19-8-2025_0468_shoposi-e-commerce-web-app-vsjm vercel app](https://github.com/user-attachments/assets/65d124e3-fcfd-47b5-8b1c-a3f34e0e7650)
-  )  
+Product Search ![Screenshot_19-8-2025_0468_shoposi-e-commerce-web-app-vsjm vercel app](https://github.com/user-attachments/assets/65d124e3-fcfd-47b5-8b1c-a3f34e0e7650)
 
 ### 🛒 Shopping Cart  
 ![Shopping Cart]( ![Screenshot_19-8-2025_03847_shoposi-e-commerce-web-app-vsjm vercel app](https://github.com/user-attachments/assets/7abf6925-2232-4f32-931d-fb5cbc6165fe)
  )  
 
 ### 📦 Admin Dashboard  
-![Admin Dashboard]( ![Screenshot_19-8-2025_04444_shoposi-e-commerce-web-app-vsjm vercel app](https://github.com/user-attachments/assets/46e1d0b2-ce17-4168-84a8-20bd2642c5ed)
- )  
+Admin Dashboard ![Screenshot_19-8-2025_04444_shoposi-e-commerce-web-app-vsjm vercel app](https://github.com/user-attachments/assets/46e1d0b2-ce17-4168-84a8-20bd2642c5ed)
+ 
 
 ---
 
@@ -64,8 +63,6 @@ The app supports **user authentication, product browsing, cart management, and o
 - Integrate payment gateways (e.g., Stripe, Paystack, PayPal).  
 - Add product filtering and sorting options.  
 - Implement real-time order tracking for users.  
-- Enhance the UI with advanced animations and responsiveness.  
-
 ---
 
 ## 🚀 Live Demo  
