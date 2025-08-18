@@ -235,7 +235,7 @@ const CartProducts = () => {
 
               <button
                 onClick={() => setorderFormPage(true)}
-                className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded-full w-full transition-colors duration-200"
+                className="bg-green-500 flex items-center justify-center hover:bg-green-600 text-white font-semibold p-2 rounded-full w-full transition-colors duration-200"
               >
                 Proceed to Checkout
               </button>
