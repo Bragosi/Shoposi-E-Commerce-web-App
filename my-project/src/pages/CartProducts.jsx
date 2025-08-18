@@ -58,9 +58,6 @@ const CartProducts = () => {
             item._id === id ? { ...item, quantity: qty + 1 } : item
           )
         );
-        toast.success("Quantity updated");
-      } else {
-        toast.error(dataResponse.message || "Failed to update quantity");
       }
     } catch (error) {
       console.error("Increase Qty Error:", error.message);
@@ -235,9 +232,8 @@ const CartProducts = () => {
                 <p>{displayCurrency(totalPrice)}</p>
               </div>
               <button
-                type="button"
                 onClick={() => setorderFormPage(true)}
-                className="w-full bg-green-500 hover:bg-green-600 active:bg-green-700 text-white font-sans font-medium text-lg py-3 px-6 rounded-lg shadow-md hover:shadow-lg focus:ring-2 focus:ring-green-400 focus:ring-opacity-50 transition-all duration-200"
+                className="bg-green-500 hover:bg-green-600 font-serif text-gray-800 p-2 w-full mx-auto rounded-full"
               >
                 Proceed to Checkout
               </button>
